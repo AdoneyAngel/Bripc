@@ -1,0 +1,10 @@
+.messagesDisplayItem{
+    background-color: black;
+    color: white;
+    padding: 5px;
+    font-size: 18px;
+    display: table;
+    margin-left: 20px;
+    margin-top: 10px;
+    border-radius: 4px;
+}

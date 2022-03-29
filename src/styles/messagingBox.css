@@ -1,0 +1,14 @@
+.messagingBox{
+    width: 350px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    align-items: center;
+}
+.messagingBox > h1{
+    text-align: center;
+    text-shadow: 0 0 20px #0000001a;
+    color: #cddef7;
+    cursor: default;
+    user-select: none;
+}

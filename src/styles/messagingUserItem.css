@@ -1,0 +1,8 @@
+.messagingUserItem{
+    padding: 14px;
+    cursor: pointer;
+    background: white;
+}
+.messagingUserItem:hover{
+    filter: brightness(0.9)
+}

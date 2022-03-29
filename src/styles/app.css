@@ -1,0 +1,33 @@
+:root{
+    --color-gris-suave: #f3f3f3;
+    --btn-hover-filter: brightness(0.9);
+    --btn-hover-bg-color: #e5e5e5;
+    --btn-hover-bg-red: #ff8c72;
+}
+*{
+    font-family: 'Baloo 2', cursive;
+    font-family: 'Baloo Da 2', cursive;
+    font-family: 'Inter', sans-serif;
+    font-family: 'Ubuntu', sans-serif;
+    transition: 0.2s;
+    margin: 0;
+    z-index: 3;
+}
+html{
+    overflow: hidden;
+}
+.box-title{
+    text-align: center;
+    text-shadow: 0 0 20px #0000001a;
+    color: #cddef7;
+    cursor: default;
+    user-select: none;
+}
+.box-title-img{
+    text-align: center;
+    text-shadow: 0 0 20px #0000001a;
+    color: #cddef7;
+    cursor: default;
+    user-select: none;
+    width: 300px;
+}

@@ -1,0 +1,13 @@
+.alertNotify{
+    max-width: 250px;
+    background-color: #ff835e;
+    position: absolute;
+    top: 5px;
+    display: block;
+    z-index: 4;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    padding: 7px;
+    border-radius: 7px
+}

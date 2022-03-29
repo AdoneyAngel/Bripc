@@ -1,0 +1,28 @@
+.messagesBoxDisplay{
+    display: block;
+    width: 100%;
+    height: 100vh;
+    position: absolute;
+    background-color: white;
+    top: 0;
+}
+.messagesBoxDisplay > .superiorBar{
+    top: 0;
+    display: grid;
+    grid-template-columns: 50px 1fr;
+    justify-content: center;
+    padding: 5px;
+}
+.messagesBoxDisplay > .superiorBar > button{
+    font-weight: bold;
+    font-size: 27px;
+    border: none;
+    text-align: center;
+    background: transparent;
+    cursor: pointer
+}
+.messagesBoxDisplay > .superiorBar > h1 {
+    display: block;
+    text-align: center;
+    margin-left: -50px;
+}

@@ -1,0 +1,21 @@
+
+.principalSuperiorBar{
+    width: 100%;
+    position: absolute;
+    top: 0;
+    z-index: 4;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    padding-left: 13px
+}
+.principalSuperiorBar > h1{
+    display: inline-block;
+    margin-left: 10px;
+    font-weight: normal;
+    color: #5eacff;
+}
+.principalSuperiorBar > img{
+    width: 55px;
+    display: inline-block
+}
