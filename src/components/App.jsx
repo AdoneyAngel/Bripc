@@ -8,6 +8,13 @@ import SignIn from './SignIn'
 import SignUp from "./SignUp";
 import Home from "./Home";
 
+// import DB from './dbConexion'
+
+// import 'firebase/auth'
+// import { getAuth, onAuthStateChanged } from "firebase/auth";
+
+// const auth = getAuth(DB);
+
 export default class App extends React.Component{
     
     state = {
@@ -90,6 +97,10 @@ export default class App extends React.Component{
         }else if(!this.userNameCookie() && window.location.pathname != '/signin' && !this.userNameCookie() && window.location.pathname != '/signup'){
             window.location = '/signin'
         }
+
+        // auth.onAuthStateChanged(user => {
+        //     user ? console.log('DB loged') : console.log('Error to load DB')
+        // })
         
         return (
             <BrowserRouter>

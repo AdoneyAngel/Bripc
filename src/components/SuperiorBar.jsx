@@ -18,6 +18,7 @@ export default class superiorBar extends React.Component{
                         openSetting: !this.state.openSetting
                     })
                 }}><img src={settingIcon} alt="" /></button>
+                <button><img src="https://th.bing.com/th/id/OIP.3inB5xmlp1iVERmiTKnSGQHaHa?pid=ImgDet&rs=1" alt="" /></button>
                 <ProfileSettingMiniDisplay open={this.state.openSetting} logOut={this.props.logOut}/>
             </div>
         )

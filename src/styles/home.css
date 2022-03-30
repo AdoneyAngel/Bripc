@@ -4,7 +4,7 @@
     top: 0;
     padding: 10px;
     padding-left: 12px;
-    padding-right: 17px;
+    padding-right: 13px;
     align-items: center;
 }
 .superiorBar > h1{
@@ -17,6 +17,7 @@
     border: none;
     border-radius: 50%;
     float: right;
+    margin-right: 10px
 }
 #home > .superiorBar > button > img{
     width: 20px;
