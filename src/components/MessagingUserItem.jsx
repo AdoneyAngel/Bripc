@@ -59,8 +59,9 @@ export default class MessagingUserItem extends React.Component{
 
                         if(messageObject.user != 'me'){
                             return <div 
+                            name='user-btn'
                             key={messageObject.txt} 
-                            onClick={this.props.openMessagesDisplay.bind("${messageObject.userMail}")} 
+                            onClick={this.props.openMessagesDisplay} 
                             className='messagingUserItem userMessage-me'>{messageObject.userMail}</div>
                         }
                     })

@@ -89,6 +89,10 @@ export default class App extends React.Component{
         window.location = '/signin'
     }
 
+    setUserSelCookie = user => {
+        this.setCookie('userSel', user)
+    }
+
     render(){
         console.log(this.state)
 
@@ -129,6 +133,7 @@ export default class App extends React.Component{
                     loadUsersChat={this.loadUsersChat} 
                     checkLogin={this.checkLogin} 
                     userNameCookie={this.userNameCookie} 
+                    setUserSelCookie={this.setUserSelCookie}
                     log={this.state.login}
                     logOut={this.logOut} />}></Route>
                 </Routes>

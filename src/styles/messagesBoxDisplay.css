@@ -1,6 +1,6 @@
 .messagesBoxDisplay{
     display: block;
-    width: 100%;
+    width: calc(100% - 200px);
     height: 100vh;
     position: absolute;
     background-color: white;

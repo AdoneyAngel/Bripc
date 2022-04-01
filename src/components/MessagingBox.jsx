@@ -8,8 +8,8 @@ export default class MessagingBox extends React.Component{
     render(){
         return (
             <div style={this.props.otherStyles} className='messagingBox'>
-                <h1>Messages</h1>
-                <Messages userMail={this.props.userMail} users={this.props.users} openMessagesDisplay={this.props.openMessagesDisplay}/>
+                {this.props.openMessagesDisplayValue ? '' : <h1>Messages</h1>}
+                <Messages openMessagesDisplayValue={this.props.openMessagesDisplayValue} userMail={this.props.userMail} users={this.props.users} openMessagesDisplay={this.props.openMessagesDisplay}/>
             </div>
         )
     }

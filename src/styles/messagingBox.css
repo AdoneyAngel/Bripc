@@ -2,7 +2,7 @@
     width: 350px;
     display: block;
     margin-left: auto;
-    margin-right: auto;
+    margin-right: calc(50% - 175px);
     align-items: center;
 }
 .messagingBox > h1{
@@ -11,4 +11,7 @@
     color: #cddef7;
     cursor: default;
     user-select: none;
+    position: absolute;
+    margin-top: -50px;
+    width: 350px;
 }
