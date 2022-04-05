@@ -91,7 +91,7 @@ export default class SignInForm extends React.Component{
     }
 
     signUp = () =>{
-        fetch('https://messagingweb-674c3-default-rtdb.firebaseio.com/users.json', {
+        fetch('https://bripc-7b1b1-default-rtdb.europe-west1.firebasedatabase.app/users.json', {
             method: 'POST',
             body: JSON.stringify({
                 name: this.state.userName,

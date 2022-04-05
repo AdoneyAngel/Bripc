@@ -74,6 +74,9 @@ state = {
             let usersObject = Object.values(users)
             let exist = false
 
+
+            console.log(usersObject)
+
             for(let user in usersObject){
                 if(usersObject[user].mail == this.state.userMail && usersObject[user].pass == this.state.userPass){
                     this.props.saveLog(usersObject[user].name, usersObject[user].mail)

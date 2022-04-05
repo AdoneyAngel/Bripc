@@ -12,7 +12,7 @@ export default class Messages extends React.Component{
             textAlign: [this.props.openMessagesDisplayValue ? 'center' : 'left']
         }
 
-        let openMessagesDisplay = this.props.openMessagesDisplayValue ? '' : this.props.openMessagesDisplay
+        let openMessagesDisplay = this.props.openMessagesDisplayValue ? null : this.props.openMessagesDisplay
         return (
             <div style={styles} className="messages">
                 <MessagingUserItem setUserSel={this.props.setUserSel} userMail={this.props.userMail} users={this.props.users} openMessagesDisplay={openMessagesDisplay}/>

@@ -12,9 +12,10 @@
     "react-dom": "^17.0.2",
     "react-router-dom": "^6.2.2",
     "react-scripts": "5.0.0",
+    "reactfire": "^4.0.0-rc.2",
     "web-vitals": "^2.1.4"
   },
-  "homepage": "bripc.com",
+  "homepage": "bripc-adoneyangel.vercel.app",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",

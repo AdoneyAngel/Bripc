@@ -32,13 +32,13 @@ export default class App extends React.Component{
     }
 
     loadUsersDb = new Promise((resolve, reject) => {
-        fetch('https://messagingweb-674c3-default-rtdb.firebaseio.com/users.json')
+        fetch('https://bripc-7b1b1-default-rtdb.europe-west1.firebasedatabase.app/users.json')
         .then(res => res.json())
         .then(result => resolve(result))
     })
 
     loadUsersChat = new Promise((resolve, reject) => {
-        fetch('https://messagingweb-674c3-default-rtdb.firebaseio.com/chats.json')
+        fetch('https://bripc-7b1b1-default-rtdb.europe-west1.firebasedatabase.app/chats.json')
         .then(res => res.json())
         .then(result => resolve(result))
     })
