@@ -1,27 +1,17 @@
 [
     {
-        "name":"Adoney",
-        "message":["Hola", "adios", "Estoy esperando a una respuesta a este mensaje"],
-        "id": 0
+        "txt":"hola",
+        "for":"me",
+        "date":1
     },
     {
-        "name":"Manolor",
-        "message":["Hola", "adios", "Estoy esperando a una respuesta a este mensaje"],
-        "id": 1
+        "txt":"holaaa2",
+        "for":"he",
+        "date":2
     },
     {
-        "name":"Manuel",
-        "message":["Hola", "adios", "Estoy esperando a una respuesta a este mensaje"],
-        "id": 2
-    },
-    {
-        "name":"Cristo",
-        "message":["Hola", "adios", "Estoy esperando a una respuesta a este mensaje"],
-        "id": 3
-    },
-    {
-        "name":"Pedro",
-        "message":["Hola", "adios", "Estoy esperando a una respuesta a este mensaje"],
-        "id": 4
+        "txt":"adios",
+        "for":"me",
+        "date":3
     }
 ]

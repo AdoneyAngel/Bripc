@@ -13,7 +13,7 @@ export default class MessagesBoxDisplay extends React.Component{
         })
     }
 
-    messages = this.props.users.filter((x) => x.name == 'Adoney')
+    messages = this.props.users
 
     render(){
         let superiorBarStyles = {
@@ -25,7 +25,7 @@ export default class MessagesBoxDisplay extends React.Component{
                     <button onClick={this.props.close} style={{"zIndex":" 4"}}>←</button>
                     <h1 style={superiorBarStyles}>User name</h1>
                 </div>
-                <Display messages={this.messages[0]}/>
+                <Display messages={this.messages}/>
                 <TextField/>
             </div>
         )

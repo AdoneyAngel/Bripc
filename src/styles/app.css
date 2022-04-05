@@ -3,6 +3,7 @@
     --btn-hover-filter: brightness(0.9);
     --btn-hover-bg-color: #e5e5e5;
     --btn-hover-bg-red: #ff8c72;
+    --principal-color: #5eacff;
 }
 *{
     font-family: 'Baloo 2', cursive;
