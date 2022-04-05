@@ -7,7 +7,7 @@ export default class ProfileSettingMiniDisplay extends React.Component{
     render(){    
         const styles = {
             display: this.props.open ? 'flex' : 'none',
-            animation: this.props.open ? 'openDisplay 0.2s linear' : 'closeDisplay 0.2s linear'
+            animation: this.props.open ? 'openProfileSettingDisplay 0.2s linear' : 'closeProfileSettingDisplay 0.2s linear'
         }
         return (
             <div className="profileSettingMiniDisplay" style={styles}>
