@@ -15,7 +15,6 @@
     "reactfire": "^4.0.0-rc.2",
     "web-vitals": "^2.1.4"
   },
-  "homepage": "bripc-adoneyangel.vercel.app",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
