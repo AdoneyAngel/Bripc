@@ -41,7 +41,7 @@ export default class Home extends React.Component{
                     <SuperiorBar userName={this.props.userName} logOut={this.props.logOut}/>
                     <MessagingBox openMessagesDisplayValue={this.state.openMessagesDisplay} userMail={this.props.userMail} users={this.props.loadUsersChat} otherStyles={messagingBoxStyles} openMessagesDisplay={this.openMessagesDisplay}/>
                 </div>
-                <MessagesBoxDisplay userSel={this.state.userSel} userMail={this.props.userMail} users={this.state.users} close={this.openMessagesDisplay} open={this.state.openMessagesDisplay}/>
+                {this.state.openMessagesDisplay ? <MessagesBoxDisplay userSel={this.state.userSel} userMail={this.props.userMail} users={this.state.users} close={this.openMessagesDisplay} open={this.state.openMessagesDisplay}/> : ''}
             </React.Fragment>
         )
     }

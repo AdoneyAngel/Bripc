@@ -9,7 +9,8 @@ export default class MessagesBoxDisplay extends React.Component{
 
     styles = () => {
         return ({
-            left: this.props.open ? '200px' : '100%'
+            left: this.props.open ? '200px' : '100%',
+            animation: this.props.open ? 'openDisplay 0.2s ease' : 'closeDisplay 0.2s ease',
         })
     }
 

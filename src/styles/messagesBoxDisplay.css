@@ -26,3 +26,11 @@
     text-align: center;
     margin-left: -50px;
 }
+@keyframes openDisplay{
+    0%{left: 100%}
+    100%{left: 200px}
+}
+@keyframes closeDisplay{
+    0%{left: 200px}
+    100%{left: 100%}
+}
