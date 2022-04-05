@@ -1,0 +1,17 @@
+{
+  "files": {
+    "main.css": "/bripc.com/static/css/main.5b3c5d29.css",
+    "main.js": "/bripc.com/static/js/main.d4b6d933.js",
+    "static/media/logout.png": "/bripc.com/static/media/logout.420a80e43f3f7fa37a9c.png",
+    "static/media/logo.png": "/bripc.com/static/media/logo.24e4999ad52d62e2a881.png",
+    "static/media/heart.png": "/bripc.com/static/media/heart.036d2c10f1f901499718.png",
+    "static/media/settings.png": "/bripc.com/static/media/settings.168bd09a37795f3aeb10.png",
+    "index.html": "/bripc.com/index.html",
+    "main.5b3c5d29.css.map": "/bripc.com/static/css/main.5b3c5d29.css.map",
+    "main.d4b6d933.js.map": "/bripc.com/static/js/main.d4b6d933.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.5b3c5d29.css",
+    "static/js/main.d4b6d933.js"
+  ]
+}
