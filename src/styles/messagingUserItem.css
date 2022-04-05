@@ -6,3 +6,7 @@
 .messagingUserItem:hover{
     filter: brightness(0.9)
 }
+.user-message-err:hover{
+    filter: brightness(1);
+    cursor: default;
+}

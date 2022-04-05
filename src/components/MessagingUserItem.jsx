@@ -5,7 +5,8 @@ import '../styles/messagingUserItem.css'
 export default class MessagingUserItem extends React.Component{
 
     state = {
-        messages: []
+        messages: [],
+        haveMessage: 'loading'
     }
 
     loadUsersChat = new Promise((resolve, reject) => {
@@ -14,8 +15,15 @@ export default class MessagingUserItem extends React.Component{
         this.props.users.then(messagesLoaded => {
             let messagesLoadedObject = Object.values(messagesLoaded)
 
+            this.setState({
+                haveMessage: 'not have'
+            })
+
             for(let message in messagesLoadedObject){
                 if(messagesLoadedObject[message].user1 == this.props.userMail){
+                    this.setState({
+                        haveMessage: 'have'
+                    })
 
                     if(messagesLoadedObject[message].writer == this.props.userMail){
                         
@@ -24,12 +32,17 @@ export default class MessagingUserItem extends React.Component{
                                 "user":"me",
                                 "txt":messagesLoadedObject[message].txt,
                                 "date":messagesLoadedObject[message].date,
-                                "userMail":messagesLoadedObject[message].writer
+                                "userMail":messagesLoadedObject[message].writer,
+                                "to": messagesLoadedObject[message].user1 == this.props.userMail ? messagesLoadedObject[message].user2 : messagesLoadedObject[message].user1
                             }
                         ]
 
                         messages.push(newMessage)                        
                     }else{
+                        this.setState({
+                            haveMessage: 'have'
+                        })
+
                         let newMessage = [
                             {
                                 "user":"he",
@@ -49,22 +62,29 @@ export default class MessagingUserItem extends React.Component{
             })
         }) 
     })
+
+    componentElementErr = txt => {
+        return <div 
+        name='user-btn'
+        key='0' 
+        onClick='none' 
+        className='messagingUserItem user-message-err'>{txt}</div>
+    }
     render(){
-        
         return (
             <React.Fragment>
                 {
-                    this.state.messages.map(message => {
+                    this.state.haveMessage == 'have' ? this.state.messages.map(message => {
                         let messageObject = Object.values(message)[0]
 
-                        if(messageObject.user != 'me'){
+                        if(messageObject){
                             return <div 
                             name='user-btn'
                             key={messageObject.txt} 
                             onClick={this.props.openMessagesDisplay} 
-                            className='messagingUserItem userMessage-me'>{messageObject.userMail}</div>
+                            className='messagingUserItem userMessage-me'>{ messageObject.userMail != this.props.userMail ? messageObject.userMail : messageObject.to}</div>
                         }
-                    })
+                    }) : this.state.haveMessage == 'loading' ? this.componentElementErr('Loading chats') : this.componentElementErr("You don't have chats")
                 }
             </React.Fragment>
 
