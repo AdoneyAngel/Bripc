@@ -19,7 +19,13 @@
     border: none;
     text-align: center;
     background: transparent;
-    cursor: pointer
+    cursor: pointer;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+.messagesBoxDisplay > .superiorBar > button > img{
+    width: 23px
 }
 .messagesBoxDisplay > .superiorBar > h1 {
     display: block;

@@ -1,5 +1,5 @@
 import React from 'react'
-import logo from '../icons/logo.png'
+import logo from '../icons/send.png'
 
 import '../styles/messagingTextField.css'
 

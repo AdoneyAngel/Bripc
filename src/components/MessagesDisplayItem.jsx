@@ -15,8 +15,6 @@ export default function MessagesDisplayItem(props){
             }
         
             messagesThis.push(newMessage)
-
-            console.log(messagesThis)
         }
 
         setMessages(messagesThis)

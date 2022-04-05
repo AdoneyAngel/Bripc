@@ -3,6 +3,9 @@
     cursor: pointer;
     background: white;
 }
+.messagingUserItemSelect{
+    background-color: #dfdfdf;
+}
 .messagingUserItem:hover{
     filter: brightness(0.9)
 }
