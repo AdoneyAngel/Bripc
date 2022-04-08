@@ -1,7 +1,14 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
+import { collection, addDoc } from "firebase/firestore";
+
+import db from './dbConexion'
 
 import logo from '../icons/logo.png'
+import eye from '../icons/eye.png'
+import closedEyes from '../icons/closed_eye.png'
+
+import Checkbox from './Checkbox'
 
 export default class SignInForm extends React.Component{
     
@@ -18,6 +25,7 @@ export default class SignInForm extends React.Component{
         erruserPass: true,
         errTypeuserPass: '',
         errAdvertuserPass: '',
+        showPass: false
     }
 
     writting = e => {
@@ -90,58 +98,56 @@ export default class SignInForm extends React.Component{
         }
     }
 
-    signUp = () =>{
-        fetch('https://bripc-7b1b1-default-rtdb.europe-west1.firebasedatabase.app/users.json', {
-            method: 'POST',
-            body: JSON.stringify({
-                name: this.state.userName,
-                mail: this.state.userMail,
-                pass: this.state.userPass                
-            }),
-            headers: {
-                'Content-type': 'application/json; charset=UTF-8'
-            }})
-            .then(res => res.json())
-            .then(result => {
-                this.props.saveLog(this.state.userName, this.state.userMail)
+    signUp = async () =>{
+        try {
+            const docRef = await addDoc(collection(db, "users"), {
+              name: this.state.userName,
+              mail: this.state.userMail,
+              pass: this.state.userPass
+            });
 
-                window.location = '/'
-            })
+            window.location = '/'
+        } catch (e) {
+            this.props.showAlert('An error occurred while creating the user')
+        }
     }
 
     checkLogin = () => {
-        this.props.loadUsersDb.then(res => {
-            let usersObject = Object.values(res)
-            let errorType
+        this.props.loadUsersDB.then(result => {
+            const users = Object.values(result)
 
-            let err = false
+            let exist = false
 
-            for(let user in usersObject){
-                if(usersObject[user].name == this.state.userName || usersObject[user].mail == this.state.userMail){
-                    if(usersObject[user].name == this.state.userName){
-                        errorType = 'name'
-                        err = true
-                        break
-                    }else{
-                        errorType = 'mail'
-                        err = true
-                        break
-                    }
+            let errType = ''
 
+            users.map(user => {
+                if(user.name == this.state.userName){
+                    errType = 'name'
+                    exist = true
+
+                }else if(user.mail == this.state.userMail){
+                    errType = 'mail'
+                    exist = true
 
                 }
-            }
+            })
 
-            if(err){
-                if(errorType == 'name'){
-                     this.props.showAlert('This user name is already in use')
-                }else{
-                    this.props.showAlert('This user mail is already in use')
-                }
-                
-            }else{
+            if(!exist){
                 this.signUp()
+
+            }else{
+                if(errType == 'name'){
+                    this.props.showAlert('This name is already in use')
+                }else{
+                    this.props.showAlert('This mail is already in use')
+                }
             }
+        })
+    }
+
+    checkShowPass = (check) => {
+        this.setState({
+            showPass: check
         })
     }
 
@@ -191,12 +197,34 @@ export default class SignInForm extends React.Component{
                     
                     <div>
                         <h2>Password</h2>
-                        <input onChange={this.writting} name='userPass' type='password' placeholder='Password'/>
+                        <input style={{
+                            "WebkitTextSecurity": this.state.showPass ? 'none' : 'disc'
+                        }} onChange={this.writting} name='userPass' type='text' placeholder='Password'/>
+
                         <p className='errText'>
                             {
                                 this.state.errAdvertuserPass
                             }
                         </p>
+
+                        <div style={{
+                            gridColumn: 1,
+                            gridColumnEnd: 3,
+                            display: 'flex',
+                            itemAlign: 'center',
+                            marginTop: '10px'
+                        }}>
+                            <Checkbox 
+                            checkTrue={eye}
+                            checkFalse={closedEyes}
+                            filterInvert={true}
+                            callback={this.checkShowPass}/>
+                            <p style={{
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                marginLeft: '10px'
+                            }}>Show password</p>                            
+                        </div>
                     </div>
                     {
                         err ? <input type='button' value='Sign up' id='btn-log' className='btn-submit' disabled/> : <input value='Sign up' onClick={this.checkLogin} id='btn-log' type='submit' className='btn-submit'/>

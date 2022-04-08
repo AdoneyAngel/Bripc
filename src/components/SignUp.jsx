@@ -13,7 +13,7 @@ export default class signUp extends React.Component{
                 <SuperiorBar/>
                 <AlertNotify showAlert={this.props.showAlertValue} txt={this.props.alertTxt}/>
                 <div className='signupBox'>
-                    <SignUpForm showAlert={this.props.showAlert} showAlertValue={this.props.showAlertValue} loadUsersDb={this.props.loadUsersDb} setCookie={this.props.setCookie} sendForm={this.sendForm} saveLog={this.props.saveLog}/>
+                    <SignUpForm showAlert={this.props.showAlert} showAlertValue={this.props.showAlertValue} loadUsersDB={this.props.loadUsersDB} setCookie={this.props.setCookie} sendForm={this.sendForm} saveLog={this.props.saveLog}/>
                 </div>
             </React.Fragment>
         )

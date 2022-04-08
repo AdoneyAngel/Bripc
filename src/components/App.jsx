@@ -1,19 +1,15 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { collection, getDocs } from "firebase/firestore";
 
 import '../styles/app.css'
 import '../styles/sign.css'
 
+import db from './dbConexion'
+
 import SignIn from './SignIn'
 import SignUp from "./SignUp";
 import Home from "./Home";
-
-// import DB from './dbConexion'
-
-// import 'firebase/auth'
-// import { getAuth, onAuthStateChanged } from "firebase/auth";
-
-// const auth = getAuth(DB);
 
 export default class App extends React.Component{
     
@@ -31,10 +27,18 @@ export default class App extends React.Component{
         this.setCookie('userMail', userMail)
     }
 
-    loadUsersDb = new Promise((resolve, reject) => {
-        fetch('https://bripc-7b1b1-default-rtdb.europe-west1.firebasedatabase.app/users.json')
-        .then(res => res.json())
-        .then(result => resolve(result))
+    loadUsersDB = new Promise((resolve, reject) => {
+        const load = async () => {
+            const users = await getDocs(collection(db, 'users'))
+    
+            let usersLoaded = []
+    
+            users.docs.map(user => usersLoaded.push(user.data()))
+
+            resolve(usersLoaded)
+        }
+
+        load()
     })
 
     loadUsersChat = new Promise((resolve, reject) => {
@@ -94,23 +98,18 @@ export default class App extends React.Component{
     }
 
     render(){
-        console.log(this.state)
 
         if(!this.userMailCookie() && window.location.pathname != '/signin' && !this.userMailCookie() && window.location.pathname != '/signup'){
             window.location = '/signin'
         }else if(!this.userNameCookie() && window.location.pathname != '/signin' && !this.userNameCookie() && window.location.pathname != '/signup'){
             window.location = '/signin'
         }
-
-        // auth.onAuthStateChanged(user => {
-        //     user ? console.log('DB loged') : console.log('Error to load DB')
-        // })
         
         return (
             <BrowserRouter>
                 <Routes>
                     <Route path="/signin" element={<SignIn 
-                    loadUsersDb={this.loadUsersDb} 
+                    loadUsersDB={this.loadUsersDB} 
                     setCookie={this.setCookie} 
                     checkLogin={this.checkLogin} 
                     saveLog={this.saveLog}
@@ -119,7 +118,7 @@ export default class App extends React.Component{
                     alertTxt={this.state.alertTxt}/>}></Route>
                     
                     <Route path="/signup" element={<SignUp 
-                    loadUsersDb={this.loadUsersDb} 
+                    loadUsersDB={this.loadUsersDB} 
                     setCookie={this.setCookie} 
                     checkLogin={this.checkLogin} 
                     saveLog={this.saveLog}

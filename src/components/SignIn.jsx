@@ -20,7 +20,7 @@ export default class SignIn extends React.Component{
                 <SuperiorBar/>
                 <AlertNotify showAlert={this.props.showAlertValue} txt={this.props.alertTxt}/>
                 <div id='SignInBox'>
-                    <SignInForm showAlertValue={this.props.showAlertValue} showAlert={this.props.showAlert} checkLogin={this.props.checkLogin} loadUsersDb={this.props.loadUsersDb} saveLog={this.props.saveLog} sendForm={this.sendForm}/>            
+                    <SignInForm showAlertValue={this.props.showAlertValue} showAlert={this.props.showAlert} checkLogin={this.props.checkLogin} loadUsersDB={this.props.loadUsersDB} saveLog={this.props.saveLog} sendForm={this.sendForm}/>            
                 </div>                
             </React.Fragment>
 

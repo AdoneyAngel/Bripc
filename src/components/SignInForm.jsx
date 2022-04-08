@@ -2,6 +2,10 @@ import React, { useRef } from 'react'
 import { Link } from 'react-router-dom'
 
 import logo from '../icons/logo.png'
+import eye from '../icons/eye.png'
+import closedEyes from '../icons/closed_eye.png'
+
+import Checkbox from './Checkbox'
 
 export default class SignInForm extends React.Component{
     
@@ -14,6 +18,7 @@ state = {
         erruserPass: true,
         errTypeuserPass: '',
         errAdvertuserPass: '',
+        showPass: false
     }
 
     writting = e => {
@@ -70,24 +75,30 @@ state = {
     }
 
     checkLogin = () => {
-        this.props.loadUsersDb.then(users => {
-            let usersObject = Object.values(users)
+        this.props.loadUsersDB.then(result => {
+            const users = Object.values(result)
+
             let exist = false
 
-
-            console.log(usersObject)
-
-            for(let user in usersObject){
-                if(usersObject[user].mail == this.state.userMail && usersObject[user].pass == this.state.userPass){
-                    this.props.saveLog(usersObject[user].name, usersObject[user].mail)
-
-                    exist = true
+            users.map(user => {
+                if(user.mail == this.state.userMail && user.pass == this.state.userPass){
+                    this.props.saveLog(user.name, user.mail)
 
                     window.location = '/'
-                }
-            }
 
-            if(!exist){this.props.showAlert('Mail or password is incorrect')}
+                    exist = true
+                }
+            })
+
+            if(!exist){
+                this.props.showAlert('User mail or password are not valid')
+            }
+        })
+    }
+
+    checkShowPass = (check) => {
+        this.setState({
+            showPass: check
         })
     }
 
@@ -126,12 +137,33 @@ state = {
                     
                     <div>
                         <h2>Password</h2>
-                        <input name='userPass' type='password' onChange={this.writting} placeholder='Password' ref={this.props.passRef}/>
+                        <input style={{
+                            "WebkitTextSecurity": this.state.showPass ? 'none' : 'disc'
+                        }} name='userPass' type='text' onChange={this.writting} placeholder='Password' ref={this.props.passRef}/>
                         <p className='errText'>
                             {
                                 this.state.errAdvertuserPass
                             }
                         </p>
+
+                        <div style={{
+                            gridColumn: 1,
+                            gridColumnEnd: 3,
+                            display: 'flex',
+                            itemAlign: 'center',
+                            marginTop: '10px'
+                        }}>
+                            <Checkbox 
+                            checkTrue={eye}
+                            checkFalse={closedEyes}
+                            filterInvert={true}
+                            callback={this.checkShowPass}/>
+                            <p style={{
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                marginLeft: '10px'
+                            }}>Show password</p>                            
+                        </div>
                     </div>
                     {
                         err ? <input type='button' value='Sign in' id='btn-log' className='btn-submit' disabled/> : <input value='Sign in' id='btn-log' className='btn-submit' type='submit' onClick={this.checkLogin}/>
