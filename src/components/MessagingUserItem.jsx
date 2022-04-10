@@ -45,7 +45,7 @@ export default class MessagingUserItem extends React.Component{
                         key={user} 
                         onClick={this.props.openMessagesDisplay} 
                         className='messagingUserItem'>{user}</div>
-                    }) : this.componentElementErr('You not have chats')
+                    }) : this.componentElementErr('You do not have chats')
                 }
             </React.Fragment>
 
