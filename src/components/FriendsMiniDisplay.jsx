@@ -55,7 +55,8 @@ export default class FriendsMiniDisplay extends React.Component{
             background: 'var(--principal-color)',
             display: 'flex',
             alignItems: 'center',
-            color: 'white'
+            color: 'white',
+            fontWeight: 'bold'
         }
 
         const headerAddBtnStyles = {
