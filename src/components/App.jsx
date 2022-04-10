@@ -120,10 +120,14 @@ export default class App extends React.Component{
         let friendsLoaded = []
 
         const loadFriends = async () => {
-            let friendsRef = await getDocs(collection(db, 'friends'))
+            let friendsRef = await getDocs(collection(db, '0'))
 
             this.loadProfile.then(profile => {
-                profile.friends.map(friend => friendsLoaded.push(friend))
+                profile.friends.map(friend => {
+                    if(friend != 'none'){
+                        friendsLoaded.push(friend)
+                    }
+                })
             })
 
             resolve(friendsLoaded)
