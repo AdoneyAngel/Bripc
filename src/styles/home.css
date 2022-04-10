@@ -9,7 +9,13 @@
 }
 .superiorBar > h1{
     font-size: 17px;
-    display: inline;
+    display: inline-flex;
+    align-items: center;
+    margin-top: -10px;
+    color: var(--principal-color)
+}
+.superiorBar > h1 > img{
+    margin-right: 10px
 }
 #home > .superiorBar > button{
     width: 20px;

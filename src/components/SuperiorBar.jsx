@@ -2,6 +2,7 @@ import React from 'react'
 import settingIcon from '../icons/settings.png'
 import heartIcon from '../icons/heart.png'
 import friendsIcon from '../icons/friends.png'
+import logo from '../icons/logo.png'
 
 import ProfileSettingMiniDisplay from './ProfileSettingMiniDisplay'
 import FriendsMiniDisplay from './FriendsMiniDisplay'
@@ -14,7 +15,7 @@ export default class superiorBar extends React.Component{
     render(){
         return (
             <div className='superiorBar'>
-                <h1>{this.props.userName}</h1>
+                <h1><img style={{width:  '37px'}} src={logo} alt="" />{this.props.userName}</h1>
                 <button onClick={this.props.openDisplaySetting}><img src={settingIcon} alt="" /></button>
                 <button><img src={heartIcon} alt="" /></button>
                 <button onClick={this.props.openDisplayFriends}><img src={friendsIcon} alt="" /></button>

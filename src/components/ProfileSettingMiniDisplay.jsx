@@ -11,7 +11,7 @@ export default class ProfileSettingMiniDisplay extends React.Component{
         }
         return (
             <div className="profileSettingMiniDisplay" style={styles}>
-                <button onClick={this.props.logOut}><img src={logoutIcon} alt="" /><p>Log out</p></button>
+                <button onClick={this.props.logOut}><img src={logoutIcon} alt="" /><p>Log Out</p></button>
             </div>
         )
     }
