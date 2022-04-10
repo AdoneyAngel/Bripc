@@ -103,7 +103,8 @@ export default class SignInForm extends React.Component{
             const docRef = await addDoc(collection(db, "users"), {
               name: this.state.userName,
               mail: this.state.userMail,
-              pass: this.state.userPass
+              pass: this.state.userPass,
+              friends: ['none']
             });
 
             this.props.saveLog(this.state.userName, this.state.userMail)

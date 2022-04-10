@@ -73,6 +73,7 @@ export default class AddFrendsDisplay extends React.Component{
         let idDoc = new Promise((resolve, reject) => {
             const loadUsers = async () => {
                 const users = await getDocs(collection(db, 'users'))
+                let haveFriends = false
 
                 let usersLoaded = []
                 users.docs.map(user => usersLoaded.push(user))
@@ -81,9 +82,17 @@ export default class AddFrendsDisplay extends React.Component{
                     if(user.data().mail == this.props.userMail){
                         userDocId = user.id
                         userFriends = user.data().friends
+
+                        haveFriends = true
                     }
-                    resolve(userFriends)
+
                 })
+
+                if(haveFriends){
+                    resolve(userFriends)
+                }else{
+                    resolve(['none'])
+                }
             }
 
             loadUsers()            
