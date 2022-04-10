@@ -106,6 +106,8 @@ export default class SignInForm extends React.Component{
               pass: this.state.userPass
             });
 
+            this.props.saveLog(this.state.userName, this.state.userMail)
+
             window.location = '/'
         } catch (e) {
             this.props.showAlert('An error occurred while creating the user')

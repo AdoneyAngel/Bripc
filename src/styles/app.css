@@ -3,6 +3,7 @@
     --btn-hover-filter: brightness(0.9);
     --btn-hover-bg-color: #e5e5e5;
     --btn-hover-bg-red: #ff8c72;
+    --btn-hover-bg-principal-color: #559be5;
     --principal-color: #5eacff;
 }
 *{
@@ -13,6 +14,8 @@
     transition: 0.2s;
     margin: 0;
     z-index: 3;
+    outline: none;
+    image-rendering: -webkit-optimize-contrast;
 }
 html{
     overflow: hidden;
@@ -31,4 +34,8 @@ html{
     cursor: default;
     user-select: none;
     width: 300px;
+}
+@keyframes openDisplayAni {
+    0%{opacity: 0}
+    100%{opacity: 1;}
 }

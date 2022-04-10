@@ -10,8 +10,7 @@ export default class MessagesDisplay extends React.Component{
         return (
             <div className='messagesDisplay'>
                 <br />
-                <MessagesDisplayItem messages={this.props.messages}/>
-                <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+                <MessagesDisplayItem userSel={this.props.userSel} reloadMessages={this.props.reloadMessages} userMail={this.props.userMail} loadMessages={this.props.loadMessages}/>
             </div>
         )
     }

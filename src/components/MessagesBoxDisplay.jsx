@@ -15,19 +15,18 @@ export default class MessagesBoxDisplay extends React.Component{
         })
     }
 
-    messages = this.props.users
-
     render(){
         let superiorBarStyles = {
             zIndex: '1'
         }
+
         return (
             <div style={this.styles()} className='messagesBoxDisplay'>
                 <div className='superiorBar'>
                     <button onClick={this.props.close} style={{"zIndex":" 4"}}><img src={back}/></button>
-                    <h1 style={superiorBarStyles}>User name</h1>
+                    <h1 style={superiorBarStyles}>{this.props.userNameSel}</h1>
                 </div>
-                <Display messages={this.messages}/>
+                <Display userMail={this.props.userMail} userSel={this.props.userSel} reloadMessages={this.props.reloadMessages} loadMessages={this.props.loadMessages}/>
                 <TextField/>
             </div>
         )

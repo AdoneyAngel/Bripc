@@ -15,7 +15,7 @@ export default class Messages extends React.Component{
         let openMessagesDisplay = this.props.openMessagesDisplayValue ? null : this.props.openMessagesDisplay
         return (
             <div style={styles} className="messages">
-                <MessagingUserItem setUserSel={this.props.setUserSel} userMail={this.props.userMail} users={this.props.users} openMessagesDisplay={openMessagesDisplay}/>
+                <MessagingUserItem setUserSel={this.props.setUserSel} userMail={this.props.userMail} loadUsersChat={this.props.loadUsersChat} openMessagesDisplay={openMessagesDisplay}/>
             </div>
         )
     }

@@ -1,11 +1,11 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { collection, getDocs } from "firebase/firestore";
+//DB
+import { collection, getDocs, onSnapshot } from "firebase/firestore";
+import db from './dbConexion'
 
 import '../styles/app.css'
 import '../styles/sign.css'
-
-import db from './dbConexion'
 
 import SignIn from './SignIn'
 import SignUp from "./SignUp";
@@ -15,8 +15,6 @@ export default class App extends React.Component{
     
     state = {
         login: false,
-        userName: '',
-        userMail: '',
         page: 'home',
         showAlert: false,
         alertTxt: 'as'
@@ -27,24 +25,39 @@ export default class App extends React.Component{
         this.setCookie('userMail', userMail)
     }
 
+    /*
+    const unsub = onSnapshot(collection(db, "users"), (doc) => {
+        console.log("data: ", doc.docs);
+    });
+    */
+
     loadUsersDB = new Promise((resolve, reject) => {
         const load = async () => {
-            const users = await getDocs(collection(db, 'users'))
-    
-            let usersLoaded = []
-    
-            users.docs.map(user => usersLoaded.push(user.data()))
+            const unsub = onSnapshot(collection(db, "users"), (doc) => {
+                let usersLoaded = []
+                doc.docs.map(user => usersLoaded.push(user.data()))
 
-            resolve(usersLoaded)
+                resolve(usersLoaded)              
+            });
         }
 
         load()
     })
 
     loadUsersChat = new Promise((resolve, reject) => {
-        fetch('https://bripc-7b1b1-default-rtdb.europe-west1.firebasedatabase.app/chats.json')
-        .then(res => res.json())
-        .then(result => resolve(result))
+        let load = async () => {
+            const unsub = onSnapshot(collection(db, "chats"), (doc) => {
+
+            let chatsLoaded = []
+
+            doc.docs.map(chat => chatsLoaded.push(chat.data()))
+
+            resolve(chatsLoaded)            
+        });
+
+        }
+
+        load()
     })
 
     setCookie = (name, value) => {
@@ -97,7 +110,34 @@ export default class App extends React.Component{
         this.setCookie('userSel', user)
     }
 
+    loadProfile = new Promise((resolve, reject) => {
+        this.loadUsersDB.then(result => {
+            result.map(res => res.mail == this.userMailCookie() ? resolve(res) : '')
+        })
+    })
+
+    loadFriends = new Promise((resolve, reject) => {
+        let friendsLoaded = []
+
+        const loadFriends = async () => {
+            let friendsRef = await getDocs(collection(db, 'friends'))
+
+            this.loadProfile.then(profile => {
+                profile.friends.map(friend => friendsLoaded.push(friend))
+            })
+
+            resolve(friendsLoaded)
+        }
+
+        loadFriends()
+    })
+ 
     render(){
+
+        this.loadUsersDB.then(res => console.log('res'))
+
+        const unsub = onSnapshot(collection(db, "users"), (doc) => {     
+        });
 
         if(!this.userMailCookie() && window.location.pathname != '/signin' && !this.userMailCookie() && window.location.pathname != '/signup'){
             window.location = '/signin'
@@ -134,7 +174,9 @@ export default class App extends React.Component{
                     userNameCookie={this.userNameCookie} 
                     setUserSelCookie={this.setUserSelCookie}
                     log={this.state.login}
-                    logOut={this.logOut} />}></Route>
+                    logOut={this.logOut}
+                    loadFriends={this.loadFriends}
+                    loadUsersDB={this.loadUsersDB} />}></Route>
                 </Routes>
             </BrowserRouter>
         )
