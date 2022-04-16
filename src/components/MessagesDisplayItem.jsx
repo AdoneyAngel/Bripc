@@ -7,9 +7,13 @@ import '../styles/msg.css'
 export default function MessagesDisplayItem(props){
     const [chatDocId, setChatDocId] = useState('')
     const [messages, setMessages] = useState([])
+    const [loadingMessages, setLoadingMessages] = useState(true)
 
     let loadChats = async () => {
+        setLoadingMessages(true)
+        
         const chatsDocs = await getDocs(collection(db, 'chats'))
+            
 
         let userChats
         
@@ -22,6 +26,8 @@ export default function MessagesDisplayItem(props){
         })
         const unsub = onSnapshot(doc(db, "chats", chatDocId), (doc) => {
             setMessages(doc.data().messages)
+            
+            setLoadingMessages(false)
         });
     }
 
@@ -29,11 +35,15 @@ export default function MessagesDisplayItem(props){
     useEffect(() => {
         loadChats()
     }, [chatDocId, props.userSel])
+
+    let notification = (txt) => {
+        return <div className='msg-notify'><p>{txt}</p></div>
+    }
+
     return (
         <React.Fragment>
             {
-                messages.map(message => {
-                    console.log(message)
+                messages.length < 1 ? notification(loadingMessages ? '...' : "You don't have messages") : messages.map(message => {
                     return <div className={message.user == '1' ? 'msg msg-me' : 'msg msg-he'}>
                                 <p className={message.user == '1' ? 'msg-txt msg-txt-me' : 'msg-txt msg-txt-he'}>{message.txt}</p>
                                 <br />
