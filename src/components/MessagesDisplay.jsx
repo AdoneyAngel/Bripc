@@ -7,6 +7,7 @@ import MessagesDisplayItem from './MessagesDisplayItem'
 export default class MessagesDisplay extends React.Component{
 
     render(){
+        setTimeout(()=>document.querySelector('.messagesDisplay').scrollTop = 999999, 100)
         return (
             <div className='messagesDisplay'>
                 <br />
