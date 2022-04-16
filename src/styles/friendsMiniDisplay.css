@@ -1,0 +1,22 @@
+.friendsMiniDisplay{
+    background-color: white;
+    width: 200px;
+    max-height: 300px;
+    box-shadow: 0px 0px 5px 1px #e3e3e3;
+    border-radius: 8.5px;
+    overflow: hidden;
+    overflow-y: auto;
+    padding-top: 0px;
+    padding-bottom: 4px;
+    right: 10px;
+    top: 45px;
+    position: absolute;
+}
+
+.friendsMiniDisplay > div{
+    background: white;
+    display: flex;
+    align-items: center;
+    padding: 7px;
+    padding-left: 8.5px;
+}

@@ -1,0 +1,62 @@
+.msg{
+    display: table;
+    margin-left: 30px;
+    margin-top: 15px;
+}
+.msg > .msg-txt{
+    color: white;
+    padding: 5px;
+    font-size: 18px;
+    border-radius: 4px;
+    min-height: 25px;
+    max-width: 600px;
+}
+.msg > .msg-txt-he{
+    background-color: black;
+}
+.msg-txt-me{
+    background: var(--principal-color);
+}
+.msg > .msg-date{
+    margin-top: -15px;
+    opacity: 0.7;
+}
+.msg-me{
+    margin-left: auto;
+    margin-right: 30px;
+}
+.msg-me > .msg-date{
+    float: right
+}
+.msg-he > .msg-date{
+    float: left
+}
+.msg > .msg-txt-he {
+    margin-top: -8.75px;
+}
+.msg > .msg-txt-me {
+    margin-top: 1px;
+}
+.msg-he::before{
+    content: '';
+    display: block;
+    width: 23px;
+    transform: skew(20deg, 23deg) translateY(7px);
+    height: 20px;
+    margin-left: -6.5px;
+    border-top-left-radius: 8px;
+    background: linear-gradient(132deg, black 50%, transparent 50%);
+    z-index: 0;
+}
+.msg-me::before{
+    content: '';
+    display: block;
+    width: 23px;
+    transform: skew(-20deg, -23deg) translateX(4.7px);
+    height: 20px;
+    margin-top: 0px;
+    float: right;
+    border-top-right-radius: 8px;
+    background: linear-gradient(226deg, #5eacff 50%, transparent 50%);
+    z-index: 0;
+}
