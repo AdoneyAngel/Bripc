@@ -42,6 +42,8 @@ export default class Home extends React.Component{
 
         e.target.className = e.target.className.replace('messagingUserItemUnselect', '')
         e.target.className = e.target.className + ' messagingUserItemSelect'
+
+        this.getUserSelName(e.target.innerText)
     }
 
     openMessagesDisplay = e => {
