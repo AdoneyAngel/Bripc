@@ -1,5 +1,5 @@
 import React from "react";
-import { doc, getDoc, getDocs, updateDoc, collection, onSnapshot } from "firebase/firestore";
+import { doc, getDoc, getDocs, collection, onSnapshot } from "firebase/firestore";
 import db from './dbConexion'
 
 import '../styles/addFriendsDisplay.css'
@@ -16,9 +16,6 @@ await updateDoc(washingtonRef, {
 
 */
 
-let userDocId
-let userFriends
-
 export default class AddFrendsDisplay extends React.Component{
 
     state = {
@@ -28,81 +25,15 @@ export default class AddFrendsDisplay extends React.Component{
         friends: []
     }
 
-    addUser = (userToAdd) => {
-
-        let friendsLoaded = []
-
-        let userMailToAdd
-
-        //cargar mail del usuario
-        const loadMailUserAdd = async () => {
-            const users = await getDocs(collection(db, 'users'))
-
-            users.docs.map(user => {
-                if(user.data().name == userToAdd){
-                    userMailToAdd = user.data().mail
-
-                //agregar usuario
-                let add = async () => {
-                    const userRef = doc(db, "users", userDocId);
-                    userFriends.push(userMailToAdd)
-
-                    await updateDoc(userRef, {
-                        friends: userFriends
-                    });
-
-                    this.props.close()
-                }
-
-                add()                    
-                }
-            })
-        }
-
-        loadMailUserAdd()
-
-
-        
-    }
-
 
 
     render(){
-
-            //cargar id del documento
-        let idDoc = new Promise((resolve, reject) => {
-            const loadUsers = async () => {
-                const users = await getDocs(collection(db, 'users'))
-                let haveFriends = false
-
-                let usersLoaded = []
-                users.docs.map(user => usersLoaded.push(user))
-
-                usersLoaded.map(user => {
-                    if(user.data().mail == this.props.userMail){
-                        userDocId = user.id
-                        userFriends = user.data().friends
-
-                        haveFriends = true
-                    }
-
-                })
-
-                if(haveFriends){
-                    resolve(userFriends)
-                }else{
-                    resolve(['none'])
-                }
-            }
-
-            loadUsers()            
-        })        
 
         let handleInputChange = (e) => {
             this.setState({
                 userToSearch: e.target.value
             }, () => {
-                idDoc.then(friends => {
+                this.props.idDoc.then(friends => {
 
                     let usersFound = new Promise((resolve, reject) => {
                         this.props.loadUsersDB.then(result => {
@@ -139,7 +70,12 @@ export default class AddFrendsDisplay extends React.Component{
                 </div>
                 {
                     this.state.usersFound.map(user => {
-                        return <div className="addFriendsDisplayFound"><p>{user}</p><button onClick={()=>{this.addUser(user)}}><img src={addIcon} alt="" /></button></div>
+                        return <div className="addFriendsDisplayFound"><p>{user}</p><button onClick={()=>{
+
+                            this.props.addUser(user)
+                            this.props.close()
+                            
+                        }}><img src={addIcon} alt="" /></button></div>
                     })
                 }
             </div>

@@ -1,64 +1,39 @@
 import React, { useEffect, useState } from 'react'
-import { collection, getDocs, onSnapshot } from "firebase/firestore";
+import { collection, getDocs, doc, onSnapshot } from "firebase/firestore";
 import db from './dbConexion'
 
 import '../styles/msg.css'
 
 export default function MessagesDisplayItem(props){
+    const [chatDocId, setChatDocId] = useState('')
     const [messages, setMessages] = useState([])
 
-    let loadUserMessages = new Promise((resolve, reject) => {
-        const loadChats = async () => {
-            const chats = await getDocs(collection(db, 'chats'))
+    let loadChats = async () => {
+        const chatsDocs = await getDocs(collection(db, 'chats'))
 
-            const unsub = onSnapshot(collection(db, "chats"), (doc) => {
-                let messagesLoaded = doc.docs.filter(chat => chat.data().user2 == props.userSel && chat.data().user1 == props.userMail)
-
-                loadMessages(messagesLoaded[0].data())
-            });       
-        }
-
-        loadChats()
-
-    })
-
-    let loadMessages = (messages) => {
-            let messagesLoaded = []
-
-            messages.messages.map(re => {
-                if(re.user == 1){
-                    let newMessage = {
-                        user: 'me',
-                        txt: re.txt,
-                        date: re.date
-                    }
-
-                    messagesLoaded.push(newMessage)
-                }else{
-                    let newMessage = {
-                        user: 'he',
-                        txt: re.txt,
-                        date: re.date
-                    }
-
-                    messagesLoaded.push(newMessage)
-                }
-
-                setTimeout(() => {
-                    setMessages(messagesLoaded)
-                }, 1000)
-
+        let userChats
+        
+        chatsDocs.docs.map(chat =>{
+            if(chat.data().user1 == props.userMail && chat.data().user2 == props.userSel){
+                userChats = chat.data().messages
+                setChatDocId(chat.id)
                 
-            })
+            }
+        })
+        const unsub = onSnapshot(doc(db, "chats", chatDocId), (doc) => {
+            setMessages(doc.data().messages)
+        });
     }
 
+
     useEffect(() => {
-    }, [messages])
+        loadChats()
+    }, [chatDocId, props.userSel])
     return (
         <React.Fragment>
             {
                 messages.map(message => {
-                    return <div className={message.user == 'me' ? 'msg msg-me' : 'msg msg-he'}><p className={message.user == 'me' ? 'msg-txt msg-txt-me' : 'msg-txt msg-txt-he'}>{message.txt}</p></div>
+                    return <div className={message.user == '1' ? 'msg msg-me' : 'msg msg-he'}><p className={message.user == '1' ? 'msg-txt msg-txt-me' : 'msg-txt msg-txt-he'}>{message.txt}</p></div>
                 })
             }
         </React.Fragment>

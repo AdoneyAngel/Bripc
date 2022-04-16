@@ -1,5 +1,5 @@
 import React from 'react'
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, updateDoc, doc } from "firebase/firestore";
 import db from './dbConexion'
 
 import '../styles/home.css'
@@ -10,6 +10,9 @@ import SuperiorBar from './SuperiorBar'
 import MessagingBox from './MessagingBox'
 import MessagesBoxDisplay from './MessagesBoxDisplay'
 import AddFrendsDisplay from './AddFriendsDisplay';
+import NewChatAddDisplay from './NewChatAddDisplay';
+
+let userDocId
 
 export default class Home extends React.Component{
 
@@ -22,18 +25,28 @@ export default class Home extends React.Component{
         userNameSel: '',
         openDisplaySettingValue: false,
         openDisplayFriendsValue: false,
-        openDisplayAddFriendsValue: false
+        openDisplayAddFriendsValue: false,
+        openNewChatToAddDisplay: false,
+        userFriends: []
+    }
+
+    setUserSel = e => {
+        if(this.state.userSelElem){
+            this.state.userSelElem.className = this.state.userSelElem.className.replace('messagingUserItemSelect', 'messagingUserItemUnselect')
+        }
+
+        this.setState({
+            userSelElem: e.target,
+            userSel: e.target.innerText
+        })
+
+        e.target.className = e.target.className.replace('messagingUserItemUnselect', '')
+        e.target.className = e.target.className + ' messagingUserItemSelect'
     }
 
     openMessagesDisplay = e => {
         if(!this.state.openMessagesDisplay){
-            e.target.className = e.target.className.replace('messagingUserItemUnselect', '')
-            e.target.className = e.target.className + ' messagingUserItemSelect'
-
-            this.setState({
-                userSelElem: e.target,
-                userSel: e.target.innerText
-            })
+            this.setUserSel(e)
         }else{
             this.state.userSelElem.className = this.state.userSelElem.className.replace('messagingUserItemSelect', 'messagingUserItemUnselect')
         }
@@ -84,12 +97,89 @@ export default class Home extends React.Component{
         })
     }
 
-    closeDisplays = (e) => {
-       this.state.openDisplaySettingValue ? this.openDisplaySetting() : console.log('')
-       e.target.className == 'friendsMiniDisplay' ? console.log('') : this.state.openDisplayFriendsValue ? this.openDisplayFriends() : console.log('')
+    openNewChatAddDisplay = () => {
+        this.setState({
+            openNewChatToAddDisplay: !this.state.openNewChatToAddDisplay
+        })
     }
 
-    render(){
+    closeDisplays = (e) => {
+       this.state.openDisplaySettingValue ? this.openDisplaySetting() : console.log('')
+       if(e.target.className != 'friendsMiniDisplay' && this.state.openDisplayFriendsValue){
+            this.openDisplayFriends()
+       }
+       if(e.target.className != 'newChatAddDisplay' && this.state.openNewChatToAddDisplay){
+        this.openNewChatAddDisplay()
+       }
+    }
+
+    addFriend = (userToAdd) => {
+
+        let friendsLoaded = []
+
+        let userMailToAdd
+
+        //cargar mail del usuario
+        const loadMailUserAdd = async () => {
+            let userFriends = this.state.userFriends
+            const users = await getDocs(collection(db, 'users'))
+
+            users.docs.map(user => {
+                if(user.data().name == userToAdd){
+                    userMailToAdd = user.data().mail
+
+                //agregar usuario
+                let add = async () => {
+                    const userRef = doc(db, "users", userDocId);
+                    userFriends.push(userMailToAdd)
+
+                    await updateDoc(userRef, {
+                        friends: userFriends
+                    });
+                }
+
+                add()                    
+                }
+            })
+        }
+
+        loadMailUserAdd()
+    }
+
+    
+    idDoc = new Promise((resolve, reject) => {
+        let userFriends = this.state.userFriends
+        const loadUsers = async () => {
+            const users = await getDocs(collection(db, 'users'))
+            let haveFriends = false
+
+            let usersLoaded = []
+            users.docs.map(user => usersLoaded.push(user))
+
+            usersLoaded.map(user => {
+                if(user.data().mail == this.props.userMail){
+                    userDocId = user.id
+                    userFriends = user.data().friends
+
+                    this.setState({
+                        userFriends: user.data().friends
+                    })
+
+                    haveFriends = true
+                }
+
+            })
+
+            if(haveFriends){
+                resolve(userFriends)
+            }else{
+                resolve(['none'])
+            }
+        }
+
+        loadUsers()            
+    })   
+    render(){     
 
         let messagingBoxStyles = {
             marginTop:'190px',
@@ -118,7 +208,9 @@ export default class Home extends React.Component{
                     loadUsersChat={this.props.loadUsersChat}
                     otherStyles={messagingBoxStyles} 
                     openDisplaySetting={this.openDisplaySetting}
-                    openMessagesDisplay={this.openMessagesDisplay}/>
+                    openMessagesDisplay={this.openMessagesDisplay}
+                    setUserSel={this.setUserSel}
+                    openNewChatAddDisplay={this.openNewChatAddDisplay}/>
                 </div>
 
                 {
@@ -127,7 +219,9 @@ export default class Home extends React.Component{
                 userName={this.props.userName}
                 userMail={this.props.userMail}
                 close={this.openDisplayAddFriends}
-                openDisplayAddFriendsValue={this.state.openDisplayAddFriendsValue} /> : null
+                openDisplayAddFriendsValue={this.state.openDisplayAddFriendsValue}
+                addUser={this.addFriend}
+                idDoc={this.idDoc} /> : null
                 }
 
                 
@@ -140,6 +234,10 @@ export default class Home extends React.Component{
                 close={this.openMessagesDisplay} 
                 open={this.state.openMessagesDisplay}
                 getUserSelName={this.getUserSelName} /> : null}
+
+                {
+                    this.state.openNewChatToAddDisplay ? <NewChatAddDisplay open={this.state.openNewChatToAddDisplay} userMail={this.props.userMail} /> : null
+                }
             </React.Fragment>
         )
     }

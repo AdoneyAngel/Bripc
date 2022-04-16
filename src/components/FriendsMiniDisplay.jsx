@@ -94,7 +94,7 @@ export default class FriendsMiniDisplay extends React.Component{
                 </div>
                 {
                     this.state.friendsNames.map(friend => {
-                        return <div><p>{friend}</p></div>
+                        return <div key={friend}><p>{friend}</p></div>
                     })
                 }
             </div>

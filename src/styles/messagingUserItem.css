@@ -2,6 +2,8 @@
     padding: 14px;
     cursor: pointer;
     background: white;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .messagingUserItemSelect{
     background-color: #dfdfdf;
