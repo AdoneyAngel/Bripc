@@ -62,7 +62,7 @@ export default class NewChatAddDisplay extends React.Component{
 
     render(){
         let styles = {
-            animation: 'openDisplayRight 0.2s linear'
+            animation: 'openDisplayRight 0.4s linear'
         }
         return (
             <div style={styles} className="newChatAddDisplay">
