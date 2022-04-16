@@ -18,7 +18,15 @@ export default class MessagingTextfield extends React.Component{
     render(){
         return (
             <div className='messagingTextFieldBox'>
-                <input value={this.state.message} onChange={this.handleInput} type="text" placeholder='Write the message'/>
+                <input onKeyUp={(e) => {
+                    if(e.keyCode == 13 && this.state.message.length > 0){
+                        this.props.sendMessage(this.state.message)
+
+                        this.setState({
+                            message: ''
+                        })
+                    }
+                }} value={this.state.message} onChange={this.handleInput} type="text" placeholder='Write the message'/>
                 <button onClick={() => {
                     if(this.state.message.length > 0){
                         this.props.sendMessage(this.state.message)
