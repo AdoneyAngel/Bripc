@@ -11,7 +11,7 @@ export default class MessagesDisplay extends React.Component{
         return (
             <div className='messagesDisplay'>
                 <br />
-                <MessagesDisplayItem userSel={this.props.userSel} reloadMessages={this.props.reloadMessages} userMail={this.props.userMail} loadMessages={this.props.loadMessages}/>
+                <MessagesDisplayItem openGlobalChat={this.props.openGlobalChat} userSel={this.props.userSel} reloadMessages={this.props.reloadMessages} userMail={this.props.userMail} loadMessages={this.props.loadMessages}/>
             </div>
         )
     }

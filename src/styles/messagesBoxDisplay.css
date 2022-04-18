@@ -64,7 +64,7 @@
     0%{left: 100%}
     100%{left: 200px}
 }
-@keyframes closeDisplay{
-    0%{left: 200px}
-    100%{left: 100%}
+@keyframes openDisplayGlobalChat{
+    0%{left: 100%}
+    100%{left: 0px}
 }

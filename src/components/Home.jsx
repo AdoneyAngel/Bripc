@@ -27,7 +27,8 @@ export default class Home extends React.Component{
         openDisplayFriendsValue: false,
         openDisplayAddFriendsValue: false,
         openNewChatToAddDisplay: false,
-        userFriends: []
+        userFriends: [],
+        openGlobalChat: false
     }
 
     setUserSel = e => {
@@ -55,7 +56,8 @@ export default class Home extends React.Component{
         
 
         this.setState({
-            openMessagesDisplay: !this.state.openMessagesDisplay
+            openMessagesDisplay: !this.state.openGlobalChat ?  !this.state.openMessagesDisplay : false,
+            openGlobalChat: false
         }, () => {
             this.getUserSelName(this.state.userSel)
         })
@@ -181,6 +183,13 @@ export default class Home extends React.Component{
 
         loadUsers()            
     })   
+
+    openGlobalChat = () => {
+        this.setState({
+            openGlobalChat: !this.state.openGlobalChat
+        })
+    }
+
     render(){     
 
         let messagingBoxStyles = {
@@ -202,7 +211,8 @@ export default class Home extends React.Component{
                     openDisplayFriendsValue={this.state.openDisplayFriendsValue}
                     openDisplayFriends={this.openDisplayFriends}
                     openDisplayAddFriends={this.openDisplayAddFriends}
-                    loadFriends={this.props.loadFriends} />
+                    loadFriends={this.props.loadFriends}
+                    openGlobalChat={this.openGlobalChat} />
 
                     <MessagingBox 
                     openMessagesDisplayValue={this.state.openMessagesDisplay} 
@@ -212,7 +222,7 @@ export default class Home extends React.Component{
                     openDisplaySetting={this.openDisplaySetting}
                     openMessagesDisplay={this.openMessagesDisplay}
                     setUserSel={this.setUserSel}
-                    openNewChatAddDisplay={this.openNewChatAddDisplay}/>
+                    openNewChatAddDisplay={this.openNewChatAddDisplay} />
                 </div>
 
                 {
@@ -228,14 +238,15 @@ export default class Home extends React.Component{
 
                 
                 
-                {this.state.openMessagesDisplay ? <MessagesBoxDisplay 
+                {this.state.openMessagesDisplay || this.state.openGlobalChat ? <MessagesBoxDisplay 
                 userSel={this.state.userSel}
                 userNameSel={this.state.userNameSel}
                 userMail={this.props.userMail} 
                 users={this.state.users} 
                 close={this.openMessagesDisplay} 
                 open={this.state.openMessagesDisplay}
-                getUserSelName={this.getUserSelName} /> : null}
+                getUserSelName={this.getUserSelName}
+                openGlobalChat={this.state.openGlobalChat} /> : null}
 
                 {
                     this.state.openNewChatToAddDisplay ? <NewChatAddDisplay open={this.state.openNewChatToAddDisplay} userMail={this.props.userMail} /> : null

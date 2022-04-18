@@ -17,7 +17,7 @@ export default class superiorBar extends React.Component{
             <div className='superiorBar'>
                 <h1><img style={{width:  '37px'}} src={logo} alt="" />{this.props.userName}</h1>
                 <button onClick={this.props.openDisplaySetting}><img src={settingIcon} alt="" /></button>
-                <button><img src={heartIcon} alt="" /></button>
+                <button onClick={this.props.openGlobalChat}><img src={heartIcon} alt="" /></button>
                 <button onClick={this.props.openDisplayFriends}><img src={friendsIcon} alt="" /></button>
                 <ProfileSettingMiniDisplay open={this.props.openDisplaySettingValue} logOut={this.props.logOut}/>
                 <FriendsMiniDisplay close={this.props.openDisplayFriends} openDisplayAddFriends={this.props.openDisplayAddFriends} loadFriends={this.props.loadFriends} open={this.props.openDisplayFriendsValue}/>

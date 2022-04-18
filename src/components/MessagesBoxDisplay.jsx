@@ -1,5 +1,5 @@
 import React from 'react'
-import { collection, getDocs, updateDoc, doc, addDoc } from "firebase/firestore";
+import { collection, getDocs, updateDoc, doc, addDoc, setDoc } from "firebase/firestore";
 import db from './dbConexion'
 
 import '../styles/messagesBoxDisplay.css'
@@ -12,8 +12,9 @@ export default class MessagesBoxDisplay extends React.Component{
 
     styles = () => {
         return ({
-            left: this.props.open ? '200px' : '100%',
-            animation: this.props.open ? 'openDisplay 0.2s ease' : 'closeDisplay 0.2s ease',
+            left: this.props.open ? '200px' : this.props.openGlobalChat ? '0px' : '100%',
+            animation: !this.props.openGlobalChat ? 'openDisplay 0.2s ease' : 'openDisplayGlobalChat 0.2s ease',
+            width: this.props.openGlobalChat ? '100%' : 'calc(100% - 200px)'
         })
     }
 
@@ -97,7 +98,46 @@ export default class MessagesBoxDisplay extends React.Component{
 
         sendMessage.then(res => {
         })
+
+        document.querySelector('.messagesDisplay').scrollTop = 9999999
     
+    }
+
+    sendGlobalMessage = async (message) => {
+
+        const date = new Date()
+        
+        const dateNow = {
+            day: date.getDate(),
+            month: date.getMonth() + 1,
+            year: date.getFullYear(),
+            minute: date.getMinutes(),
+            hour: date.getHours()
+        }
+
+        const users = await getDocs(collection(db, 'users'))
+        const userProfile = users.docs.filter(user => user.data().mail == this.props.userMail)[0]
+
+
+        const globalChatRef = await getDocs(collection(db, 'globalChat'))
+        const chat = globalChatRef.docs[0].data().chat
+
+        let newMessage = {
+            name: userProfile.data().name,
+            mail: this.props.userMail,
+            message: message,
+            date: dateNow
+        }
+
+        chat.push(newMessage)
+
+        await setDoc(doc(db, "globalChat", "chat"), {chat});
+
+        document.querySelector('.messagesDisplay').scrollTop = 9999999
+    }
+
+    componentDidMount(){
+        setTimeout(()=>document.querySelector('.messagesDisplay').scrollTop = 9999999, 300)
     }
 
     render(){
@@ -109,10 +149,10 @@ export default class MessagesBoxDisplay extends React.Component{
             <div style={this.styles()} className='messagesBoxDisplay'>
                 <div className='superiorBar'>
                     <button onClick={this.props.close} style={{"zIndex":" 4"}}><img src={back}/></button>
-                    <h1 style={superiorBarStyles}>{this.props.userNameSel}</h1>
+                    <h1 style={superiorBarStyles}>{!this.props.openGlobalChat ? this.props.userNameSel : 'Global'}</h1>
                 </div>
-                <Display userMail={this.props.userMail} userSel={this.props.userSel} reloadMessages={this.props.reloadMessages} loadMessages={this.props.loadMessages}/>
-                <TextField sendMessage={this.sendMessage} />
+                <Display openGlobalChat={this.props.openGlobalChat} userMail={this.props.userMail} userSel={this.props.userSel} reloadMessages={this.props.reloadMessages} loadMessages={this.props.loadMessages}/>
+                <TextField sendMessage={!this.props.openGlobalChat ? this.sendMessage : this.sendGlobalMessage} />
             </div>
         )
     }
