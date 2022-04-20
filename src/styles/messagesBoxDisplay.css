@@ -19,6 +19,7 @@
     border: none;
     text-align: center;
     background: transparent;
+    opacity: 0.6;
     cursor: pointer;
     justify-content: center;
     align-items: center;

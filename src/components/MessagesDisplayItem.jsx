@@ -92,8 +92,8 @@ export default function MessagesDisplayItem(props){
 
                 props.openGlobalChat ? globalMessages.map(message => {
                     return <div className={message.mail == props.userMail ? 'msg msg-me' : 'msg msg-he'}>
-                                <p className={message.mail == props.userMail ? 'msg-txt msg-txt-me' : 'msg-txt msg-txt-he'}>
                                     {message.mail != props.userMail ? <p className='msg-user-name'>{message.name}</p> : null}
+                                <p className={message.mail == props.userMail ? 'msg-txt msg-txt-me' : 'msg-txt msg-txt-he'}>
                                     
                                     {message.message}
                                 </p>
