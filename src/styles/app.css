@@ -38,6 +38,17 @@ html{
     user-select: none;
     width: 300px;
 }
+.advert-btn{
+    background: white;
+    border: 1.5px solid var(--color-red-advert);
+    border-radius: var(--general-border-radius);
+}
+.advert-btn:hover{
+    background: var(--color-red-advert);
+    border: 1.5px solid var(--color-red-advert);
+    border-radius: var(--general-border-radius);
+    color: white;
+}
 
 @keyframes openDisplayAni {
     0%{opacity: 0}
