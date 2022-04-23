@@ -119,7 +119,7 @@ export default class FriendsMiniDisplay extends React.Component{
                                 <p> {friend} </p>
 
                                 <div className="friendSettings">
-                                    <button onClick={() => {
+                                    <button className="friendDelBtn" onClick={() => {
                                         this.deleteFriend(this.state.friends[this.state.friendsNames.indexOf(friend)])
                                     }}>Delete friend</button>
                                 </div>

@@ -81,3 +81,14 @@
     margin-top: 2.5px;
     margin-bottom: 2.5px;
 }
+.friendSettings > .friendDelBtn{
+    background: white;
+    border: 1.5px solid var(--color-red-advert);
+    border-radius: var(--general-border-radius);
+}
+.friendSettings > .friendDelBtn:hover{
+    background: var(--color-red-advert);
+    border: 1.5px solid var(--color-red-advert);
+    border-radius: var(--general-border-radius);
+    color: white;
+}

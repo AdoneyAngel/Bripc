@@ -60,6 +60,7 @@ export default class AddFrendsDisplay extends React.Component{
     render(){
 
         let handleInputChange = (e) => {
+            if(e.target.value.length > 0)
             this.setState({
                 userToSearch: e.target.value
             }, async () => {
