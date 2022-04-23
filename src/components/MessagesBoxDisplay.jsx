@@ -39,7 +39,7 @@ export default class MessagesBoxDisplay extends React.Component{
                 
                 const userDoc = usersDocs.docs.filter(user => user.data().user1 == this.props.userMail && user.data().user2 == this.props.userSel)[0]
                 let chatUset1 = usersDocs.docs.filter(user => user.data().user1 == this.props.userMail && user.data().user2 == this.props.userSel)[0].data().messages
-
+                let chatUset2
 
                 let newMessageUser1 = {
                     date: dateNow,
@@ -53,42 +53,39 @@ export default class MessagesBoxDisplay extends React.Component{
                     user: 2
                 }
 
-                let createNewDocUser2 = async () => {
+                if(!usersDocs.docs.filter(user => user.data().user1 == this.props.userSel && user.data().user2 == this.props.userMail)[0]){
                     const docRef = await addDoc(collection(db, "chats"), {
                         user1: this.props.userSel,
                         user2: this.props.userMail,
                         messages: [newMessageUser2]
                     });
-
-                }
-
-                if(!usersDocs.docs.filter(user => user.data().user1 == this.props.userSel && user.data().user2 == this.props.userMail)[0]){
-                    createNewDocUser2()
-                    console.log('el documento de la otra persona no esta creada...')
+                }else{
+                    chatUset2 = usersDocs.docs.filter(user => user.data().user1 == this.props.userSel && user.data().user2 == this.props.userMail)[0].data().messages
                 }
                 if(usersDocs.docs.filter(user => user.data().user1 == this.props.userMail && user.data().user2 == this.props.userSel)[0].data().messages.length < 1){
                     chatUset1 = [newMessageUser1]
                 }
     
                 const userChatDoc = usersDocs.docs.filter(user => user.data().user1 == this.props.userSel && user.data().user2 == this.props.userMail)[0]
-                let chatUset2 = usersDocs.docs.filter(user => user.data().user1 == this.props.userSel && user.data().user2 == this.props.userMail)[0].data().messages
     
                 //Actualizar documento
 
                 chatUset1.push(newMessageUser1)
-                chatUset2.push(newMessageUser2)
-
-                console.log(chatUset1)
 
                 const userChat1Ref = doc(db, "chats", userDoc.id);
                 await updateDoc(userChat1Ref, {
                   messages: chatUset1
                 });
 
-                const userChat2Ref = doc(db, "chats", userChatDoc.id);
-                await updateDoc(userChat2Ref, {
-                  messages: chatUset2
-                });
+                if(chatUset2){
+                    chatUset2.push(newMessageUser2)
+                    
+                    const userChat2Ref = doc(db, "chats", userChatDoc.id);
+                    await updateDoc(userChat2Ref, {
+                    messages: chatUset2
+                    });
+                }
+
     
                 resolve(true)
             }    

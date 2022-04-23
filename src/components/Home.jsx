@@ -117,39 +117,6 @@ export default class Home extends React.Component{
        }
     }
 
-    addFriend = (userToAdd) => {
-
-        let friendsLoaded = []
-
-        let userMailToAdd
-
-        //cargar mail del usuario
-        const loadMailUserAdd = async () => {
-            let userFriends = this.state.userFriends
-            const users = await getDocs(collection(db, 'users'))
-
-            users.docs.map(user => {
-                if(user.data().name == userToAdd){
-                    userMailToAdd = user.data().mail
-
-                //agregar usuario
-                let add = async () => {
-                    const userRef = doc(db, "users", userDocId);
-                    userFriends.push(userMailToAdd)
-
-                    await updateDoc(userRef, {
-                        friends: userFriends
-                    });
-                }
-
-                add()                    
-                }
-            })
-        }
-
-        loadMailUserAdd()
-    }
-
     
     idDoc = new Promise((resolve, reject) => {
         let userFriends = this.state.userFriends
@@ -212,7 +179,8 @@ export default class Home extends React.Component{
                     openDisplayFriends={this.openDisplayFriends}
                     openDisplayAddFriends={this.openDisplayAddFriends}
                     loadFriends={this.props.loadFriends}
-                    openGlobalChat={this.openGlobalChat} />
+                    openGlobalChat={this.openGlobalChat}
+                    userMail={this.props.userMail} />
 
                     <MessagingBox 
                     openMessagesDisplayValue={this.state.openMessagesDisplay} 
@@ -232,7 +200,6 @@ export default class Home extends React.Component{
                 userMail={this.props.userMail}
                 close={this.openDisplayAddFriends}
                 openDisplayAddFriendsValue={this.state.openDisplayAddFriendsValue}
-                addUser={this.addFriend}
                 idDoc={this.idDoc} /> : null
                 }
 

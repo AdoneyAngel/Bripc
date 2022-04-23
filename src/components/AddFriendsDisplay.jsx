@@ -1,5 +1,5 @@
 import React from "react";
-import { doc, getDoc, getDocs, collection, onSnapshot } from "firebase/firestore";
+import { doc, getDoc, getDocs, collection, onSnapshot, updateDoc } from "firebase/firestore";
 import db from './dbConexion'
 
 import '../styles/addFriendsDisplay.css'
@@ -25,36 +25,64 @@ export default class AddFrendsDisplay extends React.Component{
         friends: []
     }
 
+    addUser = async (userToAdd) => {
 
+        const users = await getDocs(collection(db, 'users'))
+    
+        let friendsLoaded = []
+
+        let userMailToAdd
+
+        const userDocId = users.docs.filter(user => user.data().mail == this.props.userMail)[0].id
+
+        //cargar mail del usuario
+        let userFriends = this.state.userFriends
+
+        users.docs.map(user => {
+            if(user.data().name == userToAdd){
+                userMailToAdd = user.data().mail
+
+            //agregar usuario
+            let add = async () => {
+                const userRef = doc(db, "users", userDocId);
+                userFriends.push(userMailToAdd)
+
+                await updateDoc(userRef, {
+                    friends: userFriends
+                });
+            }
+
+            add()                    
+            }
+        })
+    }
 
     render(){
 
         let handleInputChange = (e) => {
             this.setState({
                 userToSearch: e.target.value
-            }, () => {
-                this.props.idDoc.then(friends => {
+            }, async () => {
 
-                    let usersFound = new Promise((resolve, reject) => {
-                        this.props.loadUsersDB.then(result => {
-                            let usersLoaded = []
-                            result.map(user => {
-                                if(user.name.slice(0, (this.state.userToSearch.length)).toUpperCase() === this.state.userToSearch.toUpperCase() && user.name.toUpperCase() !== this.props.userName.toUpperCase() && !friends.includes(user.mail)){
-                                    usersLoaded.push(user.name)
-                                }
-                            })
-                
-                            resolve(usersLoaded)
-                        }) 
-                    }) 
-    
-                    usersFound.then(res => {
-                        this.setState({
-                            usersFound: res
-                        })
+                    const users = await getDocs(collection(db, 'users'))
+                    const userFriends = users.docs.filter(user => user.data().mail == this.props.userMail)[0].data().friends
+
+                    const userRef = users.docs.filter(user => user.data().mail == this.props.userMail)[0].id
+
+                    const friends = users.docs.filter(user => user.data().mail == this.props.userMail)[0].data().friends
+
+                    let usersLoaded = []
+
+                    users.docs.map(user => {
+                        if(user.data().name.slice(0, (this.state.userToSearch.length)).toUpperCase() === this.state.userToSearch.toUpperCase() && user.data().name.toUpperCase() !== this.props.userName.toUpperCase() && !friends.includes(user.data().mail)){
+                            usersLoaded.push(user.data().name)
+                        }
                     })
 
-                })
+                    this.setState({
+                        usersFound: usersLoaded,
+                        userFriends: userFriends
+                    })
             })
         }
 
@@ -72,7 +100,7 @@ export default class AddFrendsDisplay extends React.Component{
                     this.state.usersFound.map(user => {
                         return <div className="addFriendsDisplayFound"><p>{user}</p><button onClick={()=>{
 
-                            this.props.addUser(user)
+                            this.addUser(user)
                             this.props.close()
                             
                         }}><img src={addIcon} alt="" /></button></div>

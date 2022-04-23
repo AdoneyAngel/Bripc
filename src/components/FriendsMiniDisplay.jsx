@@ -1,5 +1,5 @@
 import React from "react";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, setDoc , doc, onSnapshot} from "firebase/firestore";
 import db from './dbConexion'
 
 import '../styles/friendsMiniDisplay.css'
@@ -13,19 +13,20 @@ export default class FriendsMiniDisplay extends React.Component{
         friendsNames: []
     }
 
-    loadFriends = new Promise((resolve, reject) => {
-        this.props.loadFriends.then(friends => {
-            let friendsLoaded = []
+    loadFriends = async () => {
+        const users = await getDocs(collection(db, 'users'))
+        const userRef = users.docs.filter(user => user.data().mail == this.props.userMail)[0].id
 
-            friends.map(friend => {
-                friendsLoaded.push(friend)
-            })
+        const unsub = onSnapshot(doc(db, "users", userRef), (doc) => {
+
+            const profile = doc.data()
+            
+            let friends = profile.friends.filter(friend => friend != 'none')
 
             this.setState({
-                friends: friendsLoaded
+                friends: friends
             })
-
-
+    
             let loadFriendsNames = new Promise((resolve, reject) => {
                 const loadUsers = async () => {
                     let usersLoaded = []
@@ -43,11 +44,31 @@ export default class FriendsMiniDisplay extends React.Component{
         
                 loadUsers()
             })
-
+    
             loadFriendsNames.then(res => {
             })
         })
-    })
+
+    }
+
+    deleteFriend = async (friend) => {
+        const users = await getDocs(collection(db, 'users'))
+        const userProfile = users.docs.filter(user => user.data().mail == this.props.userMail)[0]
+        const userRef = doc(db, 'users', userProfile.id)
+
+        let userProfileData = userProfile.data()
+        userProfileData.friends = userProfileData.friends.filter(userFriend => userFriend != friend)
+
+        console.log(userRef)
+
+        setDoc(userRef, userProfileData)
+
+        this.props.close()
+    }
+
+    componentDidMount(){
+        this.loadFriends()
+    }
         
     render(){  
 
@@ -83,18 +104,27 @@ export default class FriendsMiniDisplay extends React.Component{
         }
 
         return (
-            <div 
-            onClick={(e) => e.stopPropagation()} style={styles} className="friendsMiniDisplay">
-                <div style={headerStyles}>
+            <div onClick={(e) => e.stopPropagation()} style={styles} className="friendsMiniDisplay">
+                <header style={headerStyles}>
                     <p style={{display: 'inline-block'}}>Friends</p>
 
                     <button onClick={()=>{this.props.openDisplayAddFriends(); this.props.close()}} style={headerAddBtnStyles}>
                         <img style={addButtonImgStyles} src={addFriend} alt="" />
                     </button>
-                </div>
+                </header>
                 {
                     this.state.friendsNames.map(friend => {
-                        return <div key={friend}><p>{friend}</p></div>
+                        return (
+                            <div className="friend" key={friend}>
+                                <p> {friend} </p>
+
+                                <div className="friendSettings">
+                                    <button onClick={() => {
+                                        this.deleteFriend(this.state.friends[this.state.friendsNames.indexOf(friend)])
+                                    }}>Delete friend</button>
+                                </div>
+                            </div>
+                        )
                     })
                 }
             </div>

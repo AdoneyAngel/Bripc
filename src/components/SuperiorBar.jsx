@@ -20,7 +20,7 @@ export default class superiorBar extends React.Component{
                 <button onClick={this.props.openGlobalChat}><img src={heartIcon} alt="" /></button>
                 <button onClick={this.props.openDisplayFriends}><img src={friendsIcon} alt="" /></button>
                 <ProfileSettingMiniDisplay open={this.props.openDisplaySettingValue} logOut={this.props.logOut}/>
-                <FriendsMiniDisplay close={this.props.openDisplayFriends} openDisplayAddFriends={this.props.openDisplayAddFriends} loadFriends={this.props.loadFriends} open={this.props.openDisplayFriendsValue}/>
+                <FriendsMiniDisplay userMail={this.props.userMail} close={this.props.openDisplayFriends} openDisplayAddFriends={this.props.openDisplayAddFriends} loadFriends={this.props.loadFriends} open={this.props.openDisplayFriendsValue}/>
             </div>
         )
     }

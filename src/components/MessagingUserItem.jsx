@@ -1,6 +1,8 @@
+import { collection, getDocs, onSnapshot } from 'firebase/firestore'
 import React from 'react'
 
 import '../styles/messagingUserItem.css'
+import db from './dbConexion'
 
 export default class MessagingUserItem extends React.Component{
 
@@ -10,22 +12,26 @@ export default class MessagingUserItem extends React.Component{
         loading: true
     }
 
-    loadThisUsersChat = new Promise((resolve, reject) => {
-        this.props.loadUsersChat.then(result => {
-            let users = []
+    loadThisUsersChat = async () => {
 
-            for(let chats in result){
-                if(result[chats].user1 == this.props.userMail){
-                    users.push(result[chats].user2)
+            const unsub = onSnapshot(collection(db, "chats"), (doc) => {
+                    
+                let users = []
+
+                const chats = doc
+
+                for(let chat in chats.docs){
+                    if(chats.docs[chat].data().user1 == this.props.userMail){
+                        users.push(chats.docs[chat].data().user2)
+                    }
                 }
-            }
 
-            this.setState({
-                users: users,
-                loading: false
+                this.setState({
+                    users: users,
+                    loading: false
+                })
             })
-        })
-    })
+    }
 
     componentElementErr = txt => {
         return <div 
@@ -33,6 +39,10 @@ export default class MessagingUserItem extends React.Component{
         key='0' 
         onClick='none' 
         className='messagingUserItem user-message-err'>{txt}</div>
+    }
+
+    componentDidMount(){
+        this.loadThisUsersChat()
     }
 
     render(){

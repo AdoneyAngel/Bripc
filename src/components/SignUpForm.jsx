@@ -171,7 +171,7 @@ export default class SignInForm extends React.Component{
         }
 
         let formStyles = {
-            boxShadow: [this.props.showAlertValue ? '0px 0px 73px 11px #ff000029' : '0px 0px 20px 11px #d9d9d942']
+            boxShadow: [this.props.showAlertValue ? '0px 0px 20px 11px #ff000029, 0px 0px 8px 1px #f1f1f1' : '0px 0px 20px 11px #d9d9d942, 0px 0px 8px 1px #f1f1f1']
         }
 
         return (
