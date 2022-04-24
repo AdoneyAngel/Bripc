@@ -11,6 +11,7 @@ import MessagingBox from './MessagingBox'
 import MessagesBoxDisplay from './MessagesBoxDisplay'
 import AddFrendsDisplay from './AddFriendsDisplay';
 import NewChatAddDisplay from './NewChatAddDisplay';
+import DarkenBody from './DarkenBody'
 
 let userDocId
 
@@ -28,7 +29,8 @@ export default class Home extends React.Component{
         openDisplayAddFriendsValue: false,
         openNewChatToAddDisplay: false,
         userFriends: [],
-        openGlobalChat: false
+        openGlobalChat: false,
+        darkenBody: false
     }
 
     setUserSel = e => {
@@ -97,7 +99,8 @@ export default class Home extends React.Component{
 
     openDisplayAddFriends = () => {
         this.setState({
-            openDisplayAddFriendsValue: !this.state.openDisplayAddFriendsValue
+            openDisplayAddFriendsValue: !this.state.openDisplayAddFriendsValue,
+            darkenBody: !this.state.darkenBody
         })
     }
 
@@ -169,6 +172,10 @@ export default class Home extends React.Component{
         document.title = 'Home'
         return (
             <React.Fragment>
+                {
+                    this.state.darkenBody ? <DarkenBody /> : null
+                }
+
                 <div id='home' onClick={this.closeDisplays}>
                     <SuperiorBar 
                     openDisplaySetting={this.openDisplaySetting} 

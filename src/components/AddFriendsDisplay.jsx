@@ -4,7 +4,7 @@ import db from './dbConexion'
 
 import '../styles/addFriendsDisplay.css'
 
-import closeIcon from '../icons/back2.png'
+import closeIcon from '../icons/close.png'
 import addIcon from '../icons/add_friends.png'
 /*
 const washingtonRef = doc(db, "cities", "DC");
@@ -73,16 +73,19 @@ export default class AddFrendsDisplay extends React.Component{
                     const friends = users.docs.filter(user => user.data().mail == this.props.userMail)[0].data().friends
 
                     let usersLoaded = []
+                    let usersMailsLoaded = []
 
                     users.docs.map(user => {
-                        if(user.data().name.slice(0, (this.state.userToSearch.length)).toUpperCase() === this.state.userToSearch.toUpperCase() && user.data().name.toUpperCase() !== this.props.userName.toUpperCase() && !friends.includes(user.data().mail)){
+                        if(user.data().name.slice(0, (this.state.userToSearch.length)).toUpperCase() === this.state.userToSearch.toUpperCase() && user.data().name.toUpperCase() != this.props.userName.toUpperCase() && !friends.includes(user.data().mail)){
                             usersLoaded.push(user.data().name)
+                        }else if(user.data().mail.slice(0, (this.state.userToSearch.length)).toUpperCase() === this.state.userToSearch.toUpperCase() && user.data().mail.toUpperCase() != this.props.userMail.toUpperCase() && !friends.includes(user.data().mail)){
+                            usersMailsLoaded.push(user.data().mail)
                         }
                     })
 
                     this.setState({
-                        usersFound: usersLoaded,
-                        userFriends: userFriends
+                        usersFound: usersLoaded.concat(usersMailsLoaded),
+                        userFriends: userFriends,
                     })
             })
         }
@@ -98,6 +101,7 @@ export default class AddFrendsDisplay extends React.Component{
                     <button><img onClick={this.props.close} src={closeIcon} /></button>
                 </div>
                 {
+                    this.state.usersFound.length < 1 ? <div style={{opacity: '0.5'}} className="addFriendsDisplayFound">Search users</div> :
                     this.state.usersFound.map(user => {
                         return <div className="addFriendsDisplayFound"><p>{user}</p><button onClick={()=>{
 

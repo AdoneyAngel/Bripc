@@ -3,14 +3,14 @@
     width: 200px;
     max-height: 300px;
     box-shadow: 0px 0px 5px 1px #e3e3e3;
-    border-radius: 8.5px;
-    overflow: hidden;
-    overflow-y: auto;
+    border-radius: var(--general-border-radius);
+    overflow-x: visible;
     padding-top: 0px;
     padding-bottom: 4px;
     right: 10px;
     top: 45px;
     position: absolute;
+    z-index: 4;
 }
 
 .friendsMiniDisplay > header{
@@ -19,6 +19,8 @@
     align-items: center;
     padding: 7px;
     padding-left: 8.5px;
+    border-top-left-radius: var(--general-border-radius);
+    border-top-right-radius: var(--general-border-radius);
 }
 
 .friend{
@@ -29,11 +31,14 @@
     padding-left: 8.5px;
     margin-top: 7px;
     margin-bottom: 7px;
+    z-index: 4;
     border-bottom: 1px solid #f3f3f3
 }
 
 .friend:hover > .friendSettings{
-    height: 45px;
+    opacity: 1;
+    right: 210px;
+    visibility: visible;
 }
 .friend:hover > p::after{
     opacity: 1;
@@ -62,11 +67,21 @@
 }
 
 .friendSettings{
+    width: 200px;
     display: block;
+    background-color: white;
+    padding: 7px;
+    border-radius: var(--general-border-radius);
+    box-shadow: var(--general-box-shadow);
     margin-top: 6px;
-    height: 0;
     overflow: hidden;
     transition-delay: 0.7s;
+    position: absolute;
+    right: 190px;
+    top: 20px;
+    opacity: 0;
+    z-index: 3;
+    visibility: hidden;
 }
 
 .friendSettings > button{

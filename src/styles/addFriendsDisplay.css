@@ -1,45 +1,62 @@
 .addFriendsDisplay{
     background: white;
     width: 500px;
-    height: 400px;
-    border-radius: 10px;
+    max-height: 400px;
+    border-radius: var(--general-border-radius);
     box-shadow: 0px 0px 69px 15px #00000012;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index: 4;
-    overflow: hidden;
-    overflow-y: auto;
+    z-index: 9;
+    overflow-y: visible;
+    padding-top: 5px;
+    padding-bottom: 5px;
 }
 .addFriendsDisplay > .superiorAddFriendsDisplayBar{
+    width: 500px;
     display: flex;
     justify-content: center;
     align-items: center;
-    position: sticky;
-    top: 0;
+    position: absolute;
+    top: -60px;
     background: white;
-    padding: 10px;
-    box-shadow: 0px 6px 8px 0px #0000000d;
+    box-shadow: 0px 0px 8px 0px #0000000d;
+    border-radius: var(--general-border-radius);
 }
 .addFriendsDisplay > .superiorAddFriendsDisplayBar > input{
     border: none;
     display: block;
     width: 100%;
-    font-size: 17px
+    font-size: 17px;
+    height: 25px;
+    margin-left: 10px;
+    margin-bottom: 10px;
+    margin-top: 10px;
 }
 .addFriendsDisplay > .superiorAddFriendsDisplayBar > button{
     border: none;
     border-radius: none;
     background: transparent;
-    cursor: pointer
+    cursor: pointer;
+    transition: 0s;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+.addFriendsDisplay > .superiorAddFriendsDisplayBar > button:hover{
+    filter: var(--btn-hover-filter);
 }
 .addFriendsDisplay > .superiorAddFriendsDisplayBar > button > img{
-    width: 30px;
+    width: 25px;
 }
 .addFriendsDisplayFound{
     display: flex;
-    padding: 9px
+    align-items: center;
+    padding: 9px;
+    padding-left: 12px;
+    padding-right: 12px;
+    text-transform: uppercase;
 }
 .addFriendsDisplayFound > button{
     margin-left: auto;
@@ -51,7 +68,7 @@
     background: var(--principal-color);
     padding-top: 3px;
     padding-bottom: 3px;
-    cursor: pointer
+    cursor: pointer;
 }
 .addFriendsDisplayFound > button:hover{
     background: var(--btn-hover-bg-principal-color);
