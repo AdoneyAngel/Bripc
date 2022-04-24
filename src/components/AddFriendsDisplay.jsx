@@ -110,9 +110,17 @@ export default class AddFrendsDisplay extends React.Component{
 
                     users.docs.map(user => {
                         if(user.data().name.slice(0, (this.state.userToSearch.length)).toUpperCase() === this.state.userToSearch.toUpperCase() && user.data().name.toUpperCase() !== this.props.userName.toUpperCase() && !friends.includes(user.data().mail)){
-                            usersLoaded.push(user.data().name)
+                            let newUser = {
+                                name: user.data().name,
+                                mail: user.data().mail
+                            }
+                            usersLoaded.push(newUser)
                         }else if(user.data().mail.slice(0, (this.state.userToSearch.length)).toUpperCase() === this.state.userToSearch.toUpperCase() && user.data().mail.toUpperCase() !== this.props.userMail.toUpperCase() && !friends.includes(user.data().mail)){
-                            usersMailsLoaded.push(user.data().mail)
+                            let newUser = {
+                                name: user.data().name,
+                                mail: user.data().mail
+                            }
+                            usersMailsLoaded.push(newUser)
                         }
                     })
 
@@ -131,13 +139,13 @@ export default class AddFrendsDisplay extends React.Component{
         return(
             <div style={styles} className="addFriendsDisplay">
                 <div className="superiorAddFriendsDisplayBar">
-                    <input onChange={handleInputChange} type="text" placeholder="Search user" />
+                    <input autoComplete="off" onChange={handleInputChange} type="text" placeholder="type the user name or email to search" />
                     <button><img onClick={this.props.close} src={closeIcon} /></button>
                 </div>
                 {
                     this.state.usersFound.length < 1 && this.state.usersMailsFound.length < 1 ? <div style={{opacity: '0.5'}} className="addFriendsDisplayFound">Search users</div> :
                     this.state.usersFound.map(user => {
-                        return <div className="addFriendsDisplayFound"><p>{user}</p><button onClick={()=>{
+                        return <div className="addFriendsDisplayFound"><p>{user.name}</p><p className="addFriendsDisplayFoundMail">{user.mail}</p><button onClick={()=>{
 
                             this.addUser(user)
                             this.props.close()
@@ -147,7 +155,7 @@ export default class AddFrendsDisplay extends React.Component{
                 }
                 {
                     this.state.usersMailsFound.length > 0 ? this.state.usersMailsFound.map(user => {
-                        return <div className="addFriendsDisplayFound"><p>{user}</p><button onClick={()=>{
+                        return <div className="addFriendsDisplayFound"><p>{user.name}</p><p className="addFriendsDisplayFoundMail">{user.mail}</p><button onClick={()=>{
 
                             this.addUserWithMail(user)
                             this.props.close()

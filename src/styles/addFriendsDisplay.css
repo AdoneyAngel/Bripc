@@ -77,3 +77,19 @@
     width: 25px;
     filter: invert(1)
 }
+.addFriendsDisplayFoundMail{
+    font-size: 13px;
+    opacity: 0.8;
+    margin-left: 5px;
+    display: flex;
+    align-items: center;
+}
+.addFriendsDisplayFoundMail::before{
+    content: '';
+    display: block;
+    background: #b6b6b6;
+    width: 5px;
+    height: 5px;
+    border-radius: 100%;
+    margin-right: 5px;
+}
