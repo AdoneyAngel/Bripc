@@ -2,7 +2,7 @@ import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getFirestore } from "firebase/firestore";
 
-const firebaseConfig = {//estas son las mismas variables pero estan seguras de ser accedidas por el usuario
+const firebaseConfig = {
   apiKey: "AIzaSyDmQ4WrvdTkbumgBW9S68FC9aMoQ2bgGTg",
   authDomain: "bripc-7b1b1.firebaseapp.com",
   databaseURL: "https://bripc-7b1b1-default-rtdb.europe-west1.firebasedatabase.app",
