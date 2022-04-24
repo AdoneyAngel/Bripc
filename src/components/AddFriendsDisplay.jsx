@@ -21,6 +21,7 @@ export default class AddFrendsDisplay extends React.Component{
     state = {
         userToSearch: '',
         usersFound: [],
+        usersMailsFound: [],
         userId: '',
         friends: []
     }
@@ -42,17 +43,49 @@ export default class AddFrendsDisplay extends React.Component{
             if(user.data().name == userToAdd){
                 userMailToAdd = user.data().mail
 
-            //agregar usuario
-            let add = async () => {
-                const userRef = doc(db, "users", userDocId);
-                userFriends.push(userMailToAdd)
+                //agregar usuario
+                let add = async () => {
+                    const userRef = doc(db, "users", userDocId);
+                    userFriends.push(userMailToAdd)
 
-                await updateDoc(userRef, {
-                    friends: userFriends
-                });
+                    await updateDoc(userRef, {
+                        friends: userFriends
+                    });
+                }
+
+                add()                    
             }
+        })
+    }
 
-            add()                    
+    addUserWithMail = async (userToAdd) => {
+
+        const users = await getDocs(collection(db, 'users'))
+    
+        let friendsLoaded = []
+
+        let userMailToAdd
+
+        const userDocId = users.docs.filter(user => user.data().mail == this.props.userMail)[0].id
+
+        //cargar mail del usuario
+        let userFriends = this.state.userFriends
+
+        users.docs.map(user => {
+            if(user.data().mail == userToAdd){
+                userMailToAdd = user.data().mail
+
+                //agregar usuario
+                let add = async () => {
+                    const userRef = doc(db, "users", userDocId);
+                    userFriends.push(userMailToAdd)
+
+                    await updateDoc(userRef, {
+                        friends: userFriends
+                    });
+                }
+
+                add()                    
             }
         })
     }
@@ -76,16 +109,17 @@ export default class AddFrendsDisplay extends React.Component{
                     let usersMailsLoaded = []
 
                     users.docs.map(user => {
-                        if(user.data().name.slice(0, (this.state.userToSearch.length)).toUpperCase() === this.state.userToSearch.toUpperCase() && user.data().name.toUpperCase() != this.props.userName.toUpperCase() && !friends.includes(user.data().mail)){
+                        if(user.data().name.slice(0, (this.state.userToSearch.length)).toUpperCase() === this.state.userToSearch.toUpperCase() && user.data().name.toUpperCase() !== this.props.userName.toUpperCase() && !friends.includes(user.data().mail)){
                             usersLoaded.push(user.data().name)
-                        }else if(user.data().mail.slice(0, (this.state.userToSearch.length)).toUpperCase() === this.state.userToSearch.toUpperCase() && user.data().mail.toUpperCase() != this.props.userMail.toUpperCase() && !friends.includes(user.data().mail)){
+                        }else if(user.data().mail.slice(0, (this.state.userToSearch.length)).toUpperCase() === this.state.userToSearch.toUpperCase() && user.data().mail.toUpperCase() !== this.props.userMail.toUpperCase() && !friends.includes(user.data().mail)){
                             usersMailsLoaded.push(user.data().mail)
                         }
                     })
 
                     this.setState({
-                        usersFound: usersLoaded.concat(usersMailsLoaded),
+                        usersFound: usersLoaded,
                         userFriends: userFriends,
+                        usersMailsFound: usersMailsLoaded
                     })
             })
         }
@@ -110,6 +144,16 @@ export default class AddFrendsDisplay extends React.Component{
                             
                         }}><img src={addIcon} alt="" /></button></div>
                     })
+                }
+                {
+                    this.state.usersMailsFound.length > 0 ? this.state.usersMailsFound.map(user => {
+                        return <div className="addFriendsDisplayFound"><p>{user}</p><button onClick={()=>{
+
+                            this.addUserWithMail(user)
+                            this.props.close()
+                            
+                        }}><img src={addIcon} alt="" /></button></div>
+                    }) : null
                 }
             </div>
         )
