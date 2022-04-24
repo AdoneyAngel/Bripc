@@ -135,7 +135,7 @@ export default class AddFrendsDisplay extends React.Component{
                     <button><img onClick={this.props.close} src={closeIcon} /></button>
                 </div>
                 {
-                    this.state.usersFound.length < 1 ? <div style={{opacity: '0.5'}} className="addFriendsDisplayFound">Search users</div> :
+                    this.state.usersFound.length < 1 && this.state.usersMailsFound.length < 1 ? <div style={{opacity: '0.5'}} className="addFriendsDisplayFound">Search users</div> :
                     this.state.usersFound.map(user => {
                         return <div className="addFriendsDisplayFound"><p>{user}</p><button onClick={()=>{
 
