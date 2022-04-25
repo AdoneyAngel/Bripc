@@ -147,7 +147,7 @@ export default class AddFrendsDisplay extends React.Component{
                     this.state.usersFound.map(user => {
                         return <div className="addFriendsDisplayFound"><p>{user.name}</p><p className="addFriendsDisplayFoundMail">{user.mail}</p><button onClick={()=>{
 
-                            this.addUser(user)
+                            this.addUser(user.name)
                             this.props.close()
                             
                         }}><img src={addIcon} alt="" /></button></div>
@@ -157,7 +157,7 @@ export default class AddFrendsDisplay extends React.Component{
                     this.state.usersMailsFound.length > 0 ? this.state.usersMailsFound.map(user => {
                         return <div className="addFriendsDisplayFound"><p>{user.name}</p><p className="addFriendsDisplayFoundMail">{user.mail}</p><button onClick={()=>{
 
-                            this.addUserWithMail(user)
+                            this.addUserWithMail(user.mail)
                             this.props.close()
                             
                         }}><img src={addIcon} alt="" /></button></div>
