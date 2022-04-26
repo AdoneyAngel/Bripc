@@ -58,38 +58,6 @@ export default class AddFrendsDisplay extends React.Component{
         })
     }
 
-    addUserWithMail = async (userToAdd) => {
-
-        const users = await getDocs(collection(db, 'users'))
-    
-        let friendsLoaded = []
-
-        let userMailToAdd
-
-        const userDocId = users.docs.filter(user => user.data().mail == this.props.userMail)[0].id
-
-        //cargar mail del usuario
-        let userFriends = this.state.userFriends
-
-        users.docs.map(user => {
-            if(user.data().mail == userToAdd){
-                userMailToAdd = user.data().mail
-
-                //agregar usuario
-                let add = async () => {
-                    const userRef = doc(db, "users", userDocId);
-                    userFriends.push(userMailToAdd)
-
-                    await updateDoc(userRef, {
-                        friends: userFriends
-                    });
-                }
-
-                add()                    
-            }
-        })
-    }
-
     render(){
 
         let handleInputChange = (e) => {
@@ -147,7 +115,7 @@ export default class AddFrendsDisplay extends React.Component{
                     this.state.usersFound.map(user => {
                         return <div className="addFriendsDisplayFound"><p>{user.name}</p><p className="addFriendsDisplayFoundMail">{user.mail}</p><button onClick={()=>{
 
-                            this.addUser(user)
+                            this.addUser(user.name)
                             this.props.close()
                             
                         }}><img src={addIcon} alt="" /></button></div>
@@ -157,7 +125,7 @@ export default class AddFrendsDisplay extends React.Component{
                     this.state.usersMailsFound.length > 0 ? this.state.usersMailsFound.map(user => {
                         return <div className="addFriendsDisplayFound"><p>{user.name}</p><p className="addFriendsDisplayFoundMail">{user.mail}</p><button onClick={()=>{
 
-                            this.addUserWithMail(user)
+                            this.addUser(user.name)
                             this.props.close()
                             
                         }}><img src={addIcon} alt="" /></button></div>
