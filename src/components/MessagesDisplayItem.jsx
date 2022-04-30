@@ -4,6 +4,8 @@ import db from './dbConexion'
 
 import '../styles/msg.css'
 
+const date = new Date()
+
 export default function MessagesDisplayItem(props){
     const [chatDocId, setChatDocId] = useState('')
     const [messages, setMessages] = useState([])
@@ -85,13 +87,19 @@ export default function MessagesDisplayItem(props){
     let notification = (txt) => {
         return <div className='msg-notify'><p>{txt}</p></div>
     }
+    
+    let datesRegistred = []
 
     return (
         <React.Fragment>
             {
 
                 props.openGlobalChat ? globalMessages.map(message => {
-                    return <div className={message.mail == props.userMail ? 'msg msg-me' : 'msg msg-he'}>
+
+                    return <div className='msgBox'>
+                            {message.date.day != date.getDate() && !datesRegistred.includes(message.date.day+'/'+message.date.month+'/'+message.date.year) || message.date.month != date.getMonth()+1 && !datesRegistred.includes(message.date.day+'/'+message.date.month+'/'+message.date.year) || message.date.year != date.getFullYear() && !datesRegistred.includes(message.date.day+'/'+message.date.month+'/'+message.date.year) ? <header className='msg-notify'><p>{message.date.day + '/' + message.date.month}{message.date.year != date.getFullYear() ? '/' + message.date.year : ''}</p><span style={{visibility: 'hidden'}}>{datesRegistred.push(message.date.day+'/'+message.date.month+'/'+message.date.year)}</span></header> : !datesRegistred.includes('Today') && message.date.day == date.getDate() && message.date.month == date.getMonth()+1 && message.date.year == date.getFullYear() ? <header className='msg-notify'><p>Today</p><span style={{visibility: 'hidden'}}>{datesRegistred.push('Today')}</span></header> : null}
+
+                            <div className={message.mail == props.userMail ? 'msg msg-me' : 'msg msg-he'}>
                                     {message.mail != props.userMail ? <p className='msg-user-name'>{message.name}</p> : null}
                                 <p className={message.mail == props.userMail ? 'msg-txt msg-txt-me' : 'msg-txt msg-txt-he'}>
                                     
@@ -99,14 +107,22 @@ export default function MessagesDisplayItem(props){
                                 </p>
                                 <br />
                                 <p className='msg-date'>{message.date.hour + ':' + message.date.minute + (message.date.hour > 12 ? 'pm' : 'am')}</p>
-                            </div>
+                            </div>                        
+                    </div>
+
                 }) :
                 messages.length < 1 ? notification(loadingMessages ? '...' : "You don't have messages") : messages.map(message => {
-                    return <div className={message.user == '1' ? 'msg msg-me' : 'msg msg-he'}>
-                                <p className={message.user == '1' ? 'msg-txt msg-txt-me' : 'msg-txt msg-txt-he'}>{message.txt}</p>
-                                <br />
-                                <p className='msg-date'>{message.date.hour + ':' + message.date.minute + (message.date.hour > 12 ? 'pm' : 'am')}</p>
-                            </div>
+                    return <div className='msgBox'>
+                        {message.date.day != date.getDate() && !datesRegistred.includes(message.date.day+'/'+message.date.month+'/'+message.date.year) || message.date.month != date.getMonth()+1 && !datesRegistred.includes(message.date.day+'/'+message.date.month+'/'+message.date.year) || message.date.year != date.getFullYear() && !datesRegistred.includes(message.date.day+'/'+message.date.month+'/'+message.date.year) ? <header className='msg-notify'><p>{message.date.day + '/' + message.date.month}{message.date.year != date.getFullYear() ? '/' + message.date.year : ''}</p><span style={{visibility: 'hidden'}}>{datesRegistred.push(message.date.day+'/'+message.date.month+'/'+message.date.year)}</span></header> : !datesRegistred.includes('Today') && message.date.day == date.getDate() && message.date.month == date.getMonth()+1 && message.date.year == date.getFullYear() ? <header className='msg-notify'><p>Today</p><span style={{visibility: 'hidden'}}>{datesRegistred.push('Today')}</span></header> : null}
+
+                        <div className={message.user == '1' ? 'msg msg-me' : 'msg msg-he'}>
+
+                                    <p className={message.user == '1' ? 'msg-txt msg-txt-me' : 'msg-txt msg-txt-he'}>{message.txt}</p>
+                                    <br />
+                                    <p className='msg-date'>{message.date.hour + ':' + message.date.minute + (message.date.hour > 12 ? 'pm' : 'am')}</p>
+                        </div>
+                    </div> 
+
                 })
             }
         </React.Fragment>

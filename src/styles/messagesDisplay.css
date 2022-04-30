@@ -8,6 +8,8 @@
     overflow: hidden;
     overflow-y: auto;
     border-radius: 8px;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 .messagesDisplay::-webkit-scrollbar{
