@@ -9,9 +9,12 @@
 .messagesBoxDisplay > .superiorBar{
     top: 0;
     display: grid;
-    grid-template-columns: 50px 1fr;
+    grid-template-columns: 50px 1fr 50px;
     justify-content: center;
     padding: 5px;
+}
+.messagesBoxDisplay > .superiorBar > .btn-back{
+
 }
 .messagesBoxDisplay > .superiorBar > button{
     font-weight: bold;
@@ -27,6 +30,8 @@
 }
 .messagesBoxDisplay > .superiorBar > button > img{
     width: 23px
+}
+.messagesBoxDisplay > .superiorBar > .btn-settingChat{
 }
 .messagesBoxDisplay > .superiorBar > h1 {
     display: block;

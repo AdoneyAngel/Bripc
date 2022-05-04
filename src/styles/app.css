@@ -49,6 +49,12 @@ html{
     border-radius: var(--general-border-radius);
     color: white;
 }
+.hoverBtnRed:hover{
+    background: var(--btn-hover-bg-red);
+}
+.hoverBtnGrey:hover{
+    background: #dfdfdf;
+}
 
 @keyframes openDisplayAni {
     0%{opacity: 0}

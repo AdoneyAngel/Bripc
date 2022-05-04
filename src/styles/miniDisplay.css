@@ -1,0 +1,36 @@
+.miniDisplay{
+    width: 170px;
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    right: 10px;
+    top: 45px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    background-color: white;
+    border-radius: var(--general-border-radius);
+    box-shadow: var(--general-box-shadow);
+    animation: openDisplayAni 0.2s linear;
+}
+.miniDisplay > div > button{
+    display: flex;
+    align-items: center;
+    background-color: white;
+    border: none;
+    padding-left: 12px;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    cursor: pointer;
+    width: 100%;
+}
+.miniDisplay > div > button > img{
+    image-rendering: -webkit-optimize-contrast;
+    width: 25px
+}
+.miniDisplay > button > p{
+    text-align: center;
+    font-size: 17px;
+    margin-left: 10px;
+    display: inline-flex;
+    align-items: center;
+}

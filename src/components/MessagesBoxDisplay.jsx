@@ -1,12 +1,16 @@
 import React from 'react'
-import { collection, getDocs, updateDoc, doc, addDoc, setDoc } from "firebase/firestore";
+import { collection, getDocs, updateDoc, doc, addDoc, setDoc, deleteDoc } from "firebase/firestore";
 import db from './dbConexion'
 
 import '../styles/messagesBoxDisplay.css'
 
 import Display from './MessagesDisplay'
 import TextField from './MessagingTextField'
+import MiniDisplay from './MiniDisplay';
+
 import back from '../icons/back2.png'
+import settingIcon from '../icons/settings.png'
+import { get } from 'firebase/database';
 
 export default class MessagesBoxDisplay extends React.Component{
 
@@ -19,7 +23,8 @@ export default class MessagesBoxDisplay extends React.Component{
     }
 
     state = {
-        message: ''
+        message: '',
+        openChatSettings: false
     }
 
     sendMessage = (message) => {
@@ -137,16 +142,47 @@ export default class MessagesBoxDisplay extends React.Component{
         setTimeout(()=>document.querySelector('.messagesDisplay').scrollTop = 9999999, 300)
     }
 
+    deleteChat = async () => {
+        const chats = await getDocs(collection(db, 'chats'))
+
+        const chatRef = chats.docs.filter(chat => chat.data().user1 == this.props.userMail && chat.data().user2 == this.props.userSel)[0].id
+
+        await deleteDoc(doc(db, 'chats', chatRef))
+        
+        this.props.close()
+    }
+
+    openChatSettings = () => {
+        this.setState({
+            openChatSettings: !this.state.openChatSettings
+        })
+    }
+
     render(){
         let superiorBarStyles = {
             zIndex: '1'
         }
 
+        const settingsButtons = [
+            {
+                hover: 'grey',
+                value: 'Profile',
+                click: ()=>{}
+            },
+            {
+                hover: 'red',
+                value: 'Delete chat',
+                click: this.deleteChat
+            }
+        ]
+
         return (
             <div style={this.styles()} className='messagesBoxDisplay'>
                 <div className='superiorBar'>
-                    <button onClick={this.props.close} style={{"zIndex":" 4"}}><img src={back}/></button>
+                    <button className='btn-back' onClick={this.props.close} style={{"zIndex":" 4"}}><img src={back}/></button>
                     <h1 style={superiorBarStyles}>{!this.props.openGlobalChat ? this.props.userNameSel : 'Global'}</h1>
+                    <button onClick={()=>this.openChatSettings()} className='btn-settingChat'><img src={settingIcon} alt="" /></button>
+                    {this.state.openChatSettings ? <MiniDisplay buttons={settingsButtons} elementsIsButton={true} elements={settingsButtons} buttonImage='f' button={true} buttonType='text' text={false} buttonFromElements={true} buttonValue='f'/> : null}
                 </div>
                 <Display openGlobalChat={this.props.openGlobalChat} userMail={this.props.userMail} userSel={this.props.userSel} reloadMessages={this.props.reloadMessages} loadMessages={this.props.loadMessages}/>
                 <TextField sendMessage={!this.props.openGlobalChat ? this.sendMessage : this.sendGlobalMessage} />
